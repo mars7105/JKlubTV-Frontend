@@ -5,5 +5,8 @@ if (! empty ( $_POST )) {
 	$bodytag = html_entity_decode ( $string, ENT_QUOTES );
 	
 	file_put_contents ( $configfile, $bodytag );
+	echo "Ok";
+} else {
+	echo "ERROR";
 }
 ?>

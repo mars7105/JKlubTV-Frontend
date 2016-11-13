@@ -128,7 +128,8 @@ function createTable($table) {
 }
 function createSidebarPanel($panelText) {
 	$wrapper = new Wrap ();
-	$sidebar = '';
+	$h1 = 'Test';
+	$sidebar = '<h1 class="well">' . $h1 . '</h1>';
 	for($i = 0; $i < count ( $panelText ); $i = $i + 2) {
 		$sidebarModule = $wrapper->wrapGreyContent ( $panelText [$i], '<p>' . $panelText [$i + 1] . '</p>' );
 		$sidebar .= $wrapper->wrapSidebarModule ( $sidebarModule );
