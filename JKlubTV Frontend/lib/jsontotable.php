@@ -18,8 +18,9 @@ function showMenu() {
 	<div class="col-md-8">';
 	$content .= $table;
 	$content .= '</div> <!-- col-sm-8 blog-main -->';
-	$sidePanels = $_SESSION ['sidePanels'];
-	$sidebar .= createSidebarPanel ( $sidePanels );
+	$sidePanelsheader = $_SESSION ['sidePanelsheader'];
+	$sidePanelsbody = $_SESSION ['sidePanelsbody'];
+	$sidebar .= createSidebarPanel ( $sidePanelsheader, $sidePanelsbody );
 	$content .= $wrapper->wrapSidebar ( $sidebar ) . '</div> <!--container -->';
 	$content .= createFooter ();
 	
@@ -98,7 +99,9 @@ function createHTMLTables() {
 	$menuName = $data ["menuName"];
 	$content = $wrapper->wrapNavigation ( $data ["siteName"], $menuName, $menuLinks );
 	
-	$_SESSION ['sidePanels'] = $data ["sidePanels"];
+	// $_SESSION ['sidePanels'] = $data ["sidePanels"];
+	$_SESSION ['sidePanelsheader'] = $data ["sidePanelsheader"];
+	$_SESSION ['sidePanelsbody'] = $data ["sidePanelsbody"];
 	$_SESSION ['content'] = $content;
 	$_SESSION ['files'] = $file;
 }
@@ -123,12 +126,12 @@ function createTable($table) {
 	$tempTable .= '</table>' . "\n";
 	return $tempTable;
 }
-function createSidebarPanel($panelText) {
+function createSidebarPanel($header, $body) {
 	$wrapper = new Wrap ();
 	$h1 = 'Test';
 	$sidebar = '<h1 class="well">' . $h1 . '</h1>';
-	for($i = 0; $i < count ( $panelText ); $i = $i + 2) {
-		$sidebarModule = $wrapper->wrapGreyContent ( $panelText [$i], '<p>' . $panelText [$i + 1] . '</p>' );
+	for($i = 0; $i < count ( $header ); $i ++) {
+		$sidebarModule = $wrapper->wrapGreyContent ( $header [$i], '<p>' . $body [$i] . '</p>' );
 		$sidebar .= $wrapper->wrapSidebarModule ( $sidebarModule );
 	}
 	return $sidebar;
