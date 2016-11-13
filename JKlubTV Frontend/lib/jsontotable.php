@@ -12,7 +12,6 @@ function showMenu() {
 	$param = $_GET ['param'];
 	$content = $_SESSION ['content'];
 	$files = $_SESSION ['files'];
-	
 	$table = file_get_contents ( $files [$param] );
 	$content .= '<div class="container theme-showcase" role="main">
 	<!-- Main jumbotron for a primary marketing message or call to action -->
@@ -39,61 +38,59 @@ function createHTMLTables() {
 	}
 	
 	$wrapper = new Wrap ();
-	// include 'config.php';
 	$configJSON = 'config.json';
 	$handle = fopen ( $configJSON, "r" );
 	$json = fread ( $handle, filesize ( $configJSON ) );
 	fclose ( $handle );
 	$jsonFiles = json_decode ( $json, true );
 	
-	$file [] = array ();
 	$content = '';
 	$menuLinks = '';
-	$index = 0;
 	
-	foreach ( $jsonFiles['filename'] as $filename ) {
+	foreach ( $jsonFiles as $key => $filename ) {
+		
 		if (file_exists ( $filename )) {
 			// liest den Inhalt einer Datei in einen String
 			$handle = fopen ( $filename, "r" );
 			$json = fread ( $handle, filesize ( $filename ) );
 			fclose ( $handle );
 			$data = json_decode ( $json, true );
-			$timeStampJSON [$index] = $data ["timeStamp"];
-			
-			// CROSSTABLE
-			$allContent = '';
-			$greyContent = '';
-			$greenCrossContent = '';
-			$greenMeetingContent = '';
-			$greyH1 = $data ["tournamentName"] . ' - ' . $data ["groupName"];
-			$greenCrossH1 = $data ["jsonCrossTitle"];
-			$greenMeetingH1 = $data ["jsonMeetingtitle"];
-			
-			$crosstable = $data ["crossTable"];
-			$cTable = createTable ( $crosstable );
-			
-			$crossTableText = $data ["crossTableText"];
-			$cTable .= $crossTableText [$index];
-			$greenCrossContent = $wrapper->wrapGreyContent ( $greenCrossH1, $cTable );
-			
-			// MEETINGTABLE
-			$meetingtable = $data ["meetingTable"];
-			$mTable = createTable ( $meetingtable );
-			
-			$meetingTableText = $data ["meetingTableText"];
-			$mTable .= $meetingTableText [$index];
-			$greenMeetingContent = $wrapper->wrapGreyContent ( $greenMeetingH1, $mTable );
-			
-			$allContent = '<h1 class="well">' . $greyH1 . '</h1>';
-			$allContent .= $greenCrossContent . $greenMeetingContent;
-			$fileName = 'tables/' . $data ["tournamentName"] . '-' . $data ["groupName"] . '.html';
-			$file [$index] = $fileName;
-			if (strcmp ( $timeStampJSON [$index], $timeStamp [$index] ) != 0) {
+			$timeStampJSON = $data ["timeStamp"];
+			for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
+				// CROSSTABLE
+				$allContent = '';
+				$greyContent = '';
+				$greenCrossContent = '';
+				$greenMeetingContent = '';
+				$greyH1 = $data ["tournamentName"] . ' - ' . $data ["groupName"] [$i];
+				$greenCrossH1 = $data ["jsonCrossTitle"];
+				$greenMeetingH1 = $data ["jsonMeetingtitle"];
 				
-				file_put_contents ( $fileName, $allContent );
+				$crosstable = $data ["crossTable"] [$i];
+				$cTable = createTable ( $crosstable );
+				
+				$crossTableText = $data ["crossTableText"] [$i];
+				$cTable .= $crossTableText;
+				$greenCrossContent = $wrapper->wrapGreyContent ( $greenCrossH1, $cTable );
+				
+				// MEETINGTABLE
+				$meetingtable = $data ["meetingTable"] [$i];
+				$mTable = createTable ( $meetingtable );
+				
+				$meetingTableText = $data ["meetingTableText"] [$i];
+				$mTable .= $meetingTableText;
+				$greenMeetingContent = $wrapper->wrapGreyContent ( $greenMeetingH1, $mTable );
+				
+				$allContent = '<h1 class="well">' . $greyH1 . '</h1>';
+				$allContent .= $greenCrossContent . $greenMeetingContent;
+				$file [$i] = 'tables/' . $data ["tournamentName"] . '-' . $data ["groupName"] [$i] . '.html';
+				
+				if (strcmp ( $timeStampJSON, $timeStamp ) != 0) {
+					
+					file_put_contents ( $file [$i], $allContent );
+				}
+				$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . $data ["groupName"] [$i] . '</a></li>' . "\n";
 			}
-			$menuLinks .= '<li><a href="index.php?param=' . $index . '" >' . $data ["groupName"] . '</a></li>' . "\n";
-			$index ++;
 		}
 	}
 	file_put_contents ( $timeStampFilename, json_encode ( $timeStampJSON ) );
