@@ -1,4 +1,9 @@
 <?php
+session_start ();
+if (! $_SESSION ["myusername"]) {
+	header ( "location:info.php" );
+}
+
 if (! empty ( $_POST )) {
 	$configfile = "config.json";
 	$string = $_POST ["jsonFiles"];
