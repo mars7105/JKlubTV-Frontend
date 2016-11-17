@@ -1,10 +1,9 @@
 <?php
 session_start ();
-if (! $_SESSION ["myusername"]) {
+if (empty ( $_SESSION ["username"] )) {
 	header ( "location:info.php" );
 }
-if (! empty ( $_POST )) {
-	
+if (isset ( $_POST )) {
 	$string = $_POST ["json"];
 	$jsonFileName = $_POST ["jsonFileName"];
 	$menuName = $_POST ["menuName"];
@@ -16,6 +15,7 @@ if (! empty ( $_POST )) {
 	echo "Ok";
 } else {
 	echo "ERROR";
+	session_destroy ();
 }
 
 ?>

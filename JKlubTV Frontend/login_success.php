@@ -2,7 +2,7 @@
 // Put this code in first line of web page.
 <?php
 session_start ();
-if (! $_SESSION ["myusername"]) {
+if (! isset ( $_SESSION ["username"] )) {
 	header ( "location:main_login.php" );
 }
 ?>

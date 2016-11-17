@@ -1,6 +1,9 @@
 <?php
 session_start ();
-echo "Logout";
-
+unset ( $_SESSION ["username"] );
+unset ( $_SESSION ["password"] );
 session_destroy ();
+echo "Logout";
 ?>
+
+

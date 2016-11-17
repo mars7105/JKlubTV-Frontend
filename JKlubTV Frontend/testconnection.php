@@ -1,20 +1,20 @@
 <?php
 session_start ();
-ob_start ();
-
-if (! $_SESSION ["myusername"]) {
+if (empty ( $_SESSION ["username"] )) {
 	header ( "location:info.php" );
 }
-if (! empty ( $_POST )) {
+if (isset ( $_POST )) {
 	
 	$test = $_POST ["test"];
-	
-	if (strcmp ( $test, "true" ) == 0) {
-		echo "Test Ok";
+	$cmp = "true";
+	if (strcmp ( $test, $cmp ) == 0) {
+		echo "Ok";
 	} else {
-		echo "Test Error";
+		echo "POST is wrong";
+		session_destroy ();
 	}
 } else {
-	echo "ERROR";
+	echo "POST is not set";
+	session_destroy ();
 }
-ob_end_flush ();
+?>
