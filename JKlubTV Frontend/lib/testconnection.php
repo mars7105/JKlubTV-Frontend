@@ -1,5 +1,5 @@
 <?php
-include 'lib/checklogin.php';
+include 'checklogin.php';
 if ($login != true) {
 	echo "Wrong Username or Password!";
 } else {

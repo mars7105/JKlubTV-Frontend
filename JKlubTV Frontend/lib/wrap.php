@@ -1,5 +1,4 @@
 <?php
-session_start ();
 class Wrap {
 	public function wrapGreyContent($h1, $body) {
 		$wrap = '<div class="panel panel-default">' . "\n";

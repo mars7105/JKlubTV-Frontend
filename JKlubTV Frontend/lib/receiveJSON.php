@@ -1,5 +1,5 @@
 <?php
-include 'lib/checklogin.php';
+include 'checklogin.php';
 if ($login != true) {
 	echo "Wrong Username or Password!";
 } else {
@@ -7,7 +7,7 @@ if ($login != true) {
 		$string = $_POST ["json"];
 		$jsonFileName = $_POST ["jsonFileName"];
 		$menuName = $_POST ["menuName"];
-		$file = htmlspecialchars ( 'jsonFiles/' . $jsonFileName );
+		$file = htmlspecialchars ( '../jsonFiles/' . $jsonFileName );
 		$bodytag = html_entity_decode ( $string, ENT_QUOTES );
 		file_put_contents ( $file, $bodytag );
 		

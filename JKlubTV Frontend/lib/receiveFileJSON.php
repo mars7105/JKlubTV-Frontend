@@ -1,10 +1,10 @@
 <?php
-include 'lib/checklogin.php';
+include 'checklogin.php';
 if ($login != true) {
 	echo "Wrong Username or Password!";
 } else {
 	if ((isset ( $_POST ))) {
-		$configfile = "config.json";
+		$configfile = "../config.json";
 		$string = htmlspecialchars ( $_POST ["jsonFiles"] );
 		$bodytag = html_entity_decode ( $string, ENT_QUOTES );
 		

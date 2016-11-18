@@ -1,34 +1,19 @@
 <?php
-session_start ();
-include 'wrap.php';
-if (! empty ( $_GET ['param'] ) && ! empty ( $_SESSION ['content'] )) {
-	showMenu ();
+include 'checklogin.php';
+if ($login != true) {
+	echo "Wrong Username or Password!";
 } else {
-	createHTMLTables ();
-	showMenu ();
-}
-function showMenu() {
-	$wrapper = new Wrap ();
-	$param = $_GET ['param'];
-	$content = $_SESSION ['content'];
-	$files = $_SESSION ['files'];
-	$table = file_get_contents ( $files [$param] );
-	$content .= '<div class="container theme-showcase" role="main">
-	<!-- Main jumbotron for a primary marketing message or call to action -->
-	<div class="col-md-8">';
-	$content .= $table;
-	$content .= '</div> <!-- col-sm-8 blog-main -->';
-	$sidePanelsheader = $_SESSION ['sidePanelsheader'];
-	$sidePanelsbody = $_SESSION ['sidePanelsbody'];
-	$sidebar .= createSidebarPanel ( $sidePanelsheader, $sidePanelsbody );
-	$content .= $wrapper->wrapSidebar ( $sidebar ) . '</div> <!--container -->';
-	$content .= createFooter ();
-	
-	echo $content;
-	session_destroy ();
+	if (isset ( $_POST )) {
+		
+		createHTMLTables ();
+		echo "Ok";
+	} else {
+		echo "POST is not set";
+	}
 }
 function createHTMLTables() {
-	$timeStampFilename = 'tables/timestamp.json';
+	include 'wrap.php';
+	$timeStampFilename = '../tables/timestamp.json';
 	$timeStamp = "0";
 	if (file_exists ( $timeStampFilename )) {
 		$timeStamphandle = fopen ( $timeStampFilename, "r" );
@@ -39,7 +24,7 @@ function createHTMLTables() {
 	}
 	
 	$wrapper = new Wrap ();
-	$configJSON = 'config.json';
+	$configJSON = '../config.json';
 	$handle = fopen ( $configJSON, "r" );
 	$json = fread ( $handle, filesize ( $configJSON ) );
 	fclose ( $handle );
@@ -49,6 +34,7 @@ function createHTMLTables() {
 	$menuLinks = '';
 	
 	foreach ( $jsonFiles as $key => $filename ) {
+		$filename = '../' . $filename;
 		
 		if (file_exists ( $filename )) {
 			// liest den Inhalt einer Datei in einen String
@@ -84,26 +70,17 @@ function createHTMLTables() {
 				
 				$allContent = '<h1 class="well">' . $greyH1 . '</h1>';
 				$allContent .= $greenCrossContent . $greenMeetingContent;
-				$file [$i] = 'tables/' . $data ["tournamentName"] . '-' . $data ["groupName"] [$i] . '.html';
+				$file [$i] = '../tables/' . $data ["tournamentName"] . '-' . $data ["groupName"] [$i] . '.html';
 				
-				if (strcmp ( $timeStampJSON, $timeStamp ) != 0) {
-					
-					file_put_contents ( $file [$i], $allContent );
-				}
-				$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . $data ["groupName"] [$i] . '</a></li>' . "\n";
+				// if (strcmp ( $timeStampJSON, $timeStamp ) != 0) {
+				
+				file_put_contents ( $file [$i], $allContent );
+				// }
+				// $menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . $data ["groupName"] [$i] . '</a></li>' . "\n";
 			}
 		}
 	}
 	file_put_contents ( $timeStampFilename, json_encode ( $timeStampJSON ) );
-	
-	$menuName = $data ["menuName"];
-	$content = $wrapper->wrapNavigation ( $data ["siteName"], $menuName, $menuLinks );
-	
-	// $_SESSION ['sidePanels'] = $data ["sidePanels"];
-	$_SESSION ['sidePanelsheader'] = $data ["sidePanelsheader"];
-	$_SESSION ['sidePanelsbody'] = $data ["sidePanelsbody"];
-	$_SESSION ['content'] = $content;
-	$_SESSION ['files'] = $file;
 }
 function createTable($table) {
 	$tempTable = '';
@@ -126,27 +103,4 @@ function createTable($table) {
 	$tempTable .= '</table>' . "\n";
 	return $tempTable;
 }
-function createSidebarPanel($header, $body) {
-	$wrapper = new Wrap ();
-	$h1 = 'Test';
-	$sidebar = '<h1 class="well">' . $h1 . '</h1>';
-	for($i = 0; $i < count ( $header ); $i ++) {
-		$sidebarModule = $wrapper->wrapGreyContent ( $header [$i], '<p>' . $body [$i] . '</p>' );
-		$sidebar .= $wrapper->wrapSidebarModule ( $sidebarModule );
-	}
-	return $sidebar;
-}
-function createFooter() {
-	$wrap = '
-	<footer class="blog-footer">
-		<p>
-			<a href="http://getbootstrap.com">Bootstrap</a>
-		</p>
-		<p>
-			<a href="#">Back to top</a>
-		</p>
-	</footer>';
-	return $wrap;
-}
 ?>
-	
