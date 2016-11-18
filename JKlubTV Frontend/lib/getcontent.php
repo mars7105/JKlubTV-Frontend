@@ -1,7 +1,7 @@
 <?php
 include 'wrap.php';
 if (isset ( $_GET ['param'] )) {
-	echo showGroupTable ( $_GET ['param'] );
+	echo showGroupTable ( htmlentities($_GET ['param']) );
 } else {
 	echo showMenu ();
 }

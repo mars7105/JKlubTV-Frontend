@@ -4,7 +4,7 @@ if ($login != true) {
 	echo "Wrong Username or Password!";
 } else {
 	if ((isset ( $_POST ))) {
-		$test = $_POST ["test"];
+		$test = htmlspecialchars ( $_POST ["test"] );
 		$cmp = "true";
 		if (strcmp ( $test, $cmp ) == 0) {
 			echo "Ok";
