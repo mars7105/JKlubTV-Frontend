@@ -1,20 +1,18 @@
 <?php
-session_start ();
-if (empty ( $_SESSION ["username"] )) {
-	header ( "location:info.php" );
-}
-if (isset ( $_POST )) {
-	
-	$test = $_POST ["test"];
-	$cmp = "true";
-	if (strcmp ( $test, $cmp ) == 0) {
-		echo "Ok";
-	} else {
-		echo "POST is wrong";
-		session_destroy ();
-	}
+include 'lib/checklogin.php';
+if ($login != true) {
+	echo "Wrong Username or Password!";
 } else {
-	echo "POST is not set";
-	session_destroy ();
+	if ((isset ( $_POST ))) {
+		$test = $_POST ["test"];
+		$cmp = "true";
+		if (strcmp ( $test, $cmp ) == 0) {
+			echo "Ok";
+		} else {
+			echo "POST is wrong";
+		}
+	} else {
+		echo "POST is not set";
+	}
 }
 ?>
