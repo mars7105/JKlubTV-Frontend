@@ -1,7 +1,10 @@
 <?php
+$login = false;
 include 'checklogin.php';
 if ($login != true) {
 	echo "Wrong Username or Password!";
+	// das Programm normal beenden
+	exit;
 } else {
 	if ((isset ( $_POST ))) {
 		$test = htmlspecialchars ( $_POST ["test"] );

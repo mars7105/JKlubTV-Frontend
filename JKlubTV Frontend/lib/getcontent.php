@@ -1,7 +1,10 @@
 <?php
 include 'wrap.php';
 if (isset ( $_GET ['param'] )) {
-	echo showGroupTable ( htmlentities($_GET ['param']) );
+	$index = $_GET ['param'];
+	if ($index >= 0 && $index < 20 && is_numeric($index)) {
+		echo showGroupTable ( htmlentities ( $index ) );
+	}
 } else {
 	echo showMenu ();
 }
