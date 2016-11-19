@@ -1,7 +1,10 @@
 <?php
+$login = false;
 include 'checklogin.php';
 if ($login != true) {
 	echo "Wrong Username or Password!";
+	// das Programm normal beenden
+	exit;
 } else {
 	if ((isset ( $_POST ))) {
 		$configfile = "../config.json";
@@ -12,6 +15,7 @@ if ($login != true) {
 		echo "Ok";
 	} else {
 		echo "POST is not set";
+		exit;
 	}
 }
 ?>

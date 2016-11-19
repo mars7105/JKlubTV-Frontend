@@ -1,7 +1,12 @@
 <?php
 include 'wrap.php';
 if (isset ( $_GET ['param'] )) {
-	echo showGroupTable ( htmlentities($_GET ['param']) );
+	$index = htmlentities ( $_GET ['param'] );
+	if ($index >= 0 && $index < 20 && is_numeric ( $index )) {
+		echo showGroupTable ( $index );
+	} else {
+		exit ();
+	}
 } else {
 	echo showMenu ();
 }
@@ -25,12 +30,12 @@ function showMenu() {
 		$data = json_decode ( $json, true );
 		for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
 			
-			$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . $data ["groupName"] [$i] . '</a></li>' . "\n";
+			$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . strip_tags ( $data ["groupName"] [$i] ) . '</a></li>' . "\n";
 		}
 	}
 	
-	$menuName = $data ["menuName"];
-	$content = $wrapper->wrapNavigation ( $data ["siteName"], $menuName, $menuLinks );
+	$menuName = strip_tags ( $data ["menuName"] );
+	$content = $wrapper->wrapNavigation ( strip_tags ( $data ["siteName"] ), $menuName, $menuLinks );
 	$content .= '<div class="container theme-showcase" role="main">
 	<!-- Main jumbotron for a primary marketing message or call to action -->
 	<div class="col-md-8">';
@@ -44,6 +49,7 @@ function showMenu() {
 	return $content;
 }
 function showGroupTable($index) {
+	$allowable_tags = allowTags ();
 	$wrapper = new Wrap ();
 	$configJSON = 'config.json';
 	$handle = fopen ( $configJSON, "r" );
@@ -67,12 +73,12 @@ function showGroupTable($index) {
 		
 		$allContent = file_get_contents ( $file );
 		for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
-			$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . $data ["groupName"] [$i] . '</a></li>' . "\n";
+			$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . htmlspecialchars ( $data ["groupName"] [$i] ) . '</a></li>' . "\n";
 		}
 	}
 	
-	$menuName = $data ["menuName"];
-	$content = $wrapper->wrapNavigation ( $data ["siteName"], $menuName, $menuLinks );
+	$menuName = htmlspecialchars ( $data ["menuName"] );
+	$content = $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menuName, $menuLinks );
 	$content .= '<div class="container theme-showcase" role="main">
 	<!-- Main jumbotron for a primary marketing message or call to action -->
 	<div class="col-md-8">';
@@ -88,10 +94,11 @@ function showGroupTable($index) {
 }
 function createSidebarPanel($header, $body) {
 	$wrapper = new Wrap ();
+	$allowable_tags = allowTags ();
 	$h1 = 'Test';
 	$sidebar = '<h1 class="well">' . $h1 . '</h1>';
 	for($i = 0; $i < count ( $header ); $i ++) {
-		$sidebarModule = $wrapper->wrapGreyContent ( $header [$i], '<p>' . $body [$i] . '</p>' );
+		$sidebarModule = $wrapper->wrapGreyContent ( strip_tags ( $header [$i], $allowable_tags ), strip_tags ( $body [$i], $allowable_tags ) );
 		$sidebar .= $wrapper->wrapSidebarModule ( $sidebarModule );
 	}
 	return $sidebar;
@@ -107,6 +114,9 @@ function createFooter() {
 		</p>
 	</footer>';
 	return $wrap;
+}
+function allowTags() {
+	return "<p><br><br/><br />";
 }
 ?>
 	
