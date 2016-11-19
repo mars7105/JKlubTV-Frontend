@@ -98,7 +98,7 @@ function createSidebarPanel($header, $body) {
 	$h1 = 'Test';
 	$sidebar = '<h1 class="well">' . $h1 . '</h1>';
 	for($i = 0; $i < count ( $header ); $i ++) {
-		$sidebarModule = $wrapper->wrapGreyContent ( strip_tags ( $header [$i], $allowable_tags ), strip_tags ( $body [$i], $allowable_tags ) );
+		$sidebarModule = $wrapper->wrapContent ( strip_tags ( $header [$i], $allowable_tags ), strip_tags ( $body [$i], $allowable_tags ), Wrap::GREYDIVCONTENT);
 		$sidebar .= $wrapper->wrapSidebarModule ( $sidebarModule );
 	}
 	return $sidebar;

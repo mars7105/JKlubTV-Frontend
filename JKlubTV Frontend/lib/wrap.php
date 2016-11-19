@@ -1,7 +1,15 @@
 <?php
 class Wrap {
-	public function wrapGreyContent($h1, $body) {
-		$wrap = '<div class="panel panel-default">' . "\n";
+	// Defining constants
+	const GREYDIVCONTENT = 'panel-default';
+	const DARKBLUEDIVCONTENT = 'panel-primary';
+	const LIGHTBLUEDIVCONTENT = 'panel-info';
+	const YELLOWDIVCONTENT = 'panel-warning';
+	const REDDIVCONTENT = 'panel-danger';
+	const GREENDIVCONTENT = 'panel-success';
+	//
+	public function wrapContent($h1, $body, $color) {
+		$wrap = '<div class="panel ' . $color . '">' . "\n";
 		$wrap .= '  <div class="panel-heading">' . "\n";
 		$wrap .= '    <h1 class="panel-title">' . $h1 . '</h1>' . "\n";
 		$wrap .= '	</div>' . "\n";
@@ -10,61 +18,6 @@ class Wrap {
 		$wrap .= '  </div>' . "\n";
 		$wrap .= '</div>' . "\n";
 		
-		return $wrap;
-	}
-	public function wrapDarkBlueContent($h1, $body) {
-		$wrap = '<div class="panel panel-primary ">' . "\n";
-		$wrap .= '  <div class="panel-heading">' . "\n";
-		$wrap .= '    <h1 class="panel-title">' . $h1 . '</h1>' . "\n";
-		$wrap .= '	</div>' . "\n";
-		$wrap .= '  <div class="panel-body">' . "\n";
-		$wrap .= $body . "\n";
-		$wrap .= '  </div>' . "\n";
-		$wrap .= '</div>' . "\n";
-		return $wrap;
-	}
-	public function wrapLightBlueContent($h1, $body) {
-		$wrap = '<div class="panel panel-info ">' . "\n";
-		$wrap .= '  <div class="panel-heading">' . "\n";
-		$wrap .= '    <h1 class="panel-title">' . $h1 . '</h1>' . "\n";
-		$wrap .= '	</div>' . "\n";
-		$wrap .= '  <div class="panel-body">' . "\n";
-		$wrap .= $body . "\n";
-		$wrap .= '  </div>' . "\n";
-		$wrap .= '</div>' . "\n";
-		return $wrap;
-	}
-	public function wrapYellowContent($h1, $body) {
-		$wrap = '<div class="panel panel-warning ">' . "\n";
-		$wrap .= '  <div class="panel-heading">' . "\n";
-		$wrap .= '    <h1 class="panel-title">' . $h1 . '</h1>' . "\n";
-		$wrap .= '	</div>' . "\n";
-		$wrap .= '  <div class="panel-body">' . "\n";
-		$wrap .= $body . "\n";
-		$wrap .= '  </div>' . "\n";
-		$wrap .= '</div>' . "\n";
-		return $wrap;
-	}
-	public function wrapRedContent($h1, $body) {
-		$wrap = '<div class="panel panel-danger ">' . "\n";
-		$wrap .= '  <div class="panel-heading">' . "\n";
-		$wrap .= '    <h1 class="panel-title">' . $h1 . '</h1>' . "\n";
-		$wrap .= '	</div>' . "\n";
-		$wrap .= '  <div class="panel-body">' . "\n";
-		$wrap .= $body . "\n";
-		$wrap .= '  </div>' . "\n";
-		$wrap .= '</div>' . "\n";
-		return $wrap;
-	}
-	public function wrapGreenContent($h1, $body) {
-		$wrap = '<div class="panel panel-success ">' . "\n";
-		$wrap .= '  <div class="panel-heading">' . "\n";
-		$wrap .= '    <h1 class="panel-title">' . $h1 . '</h1>' . "\n";
-		$wrap .= '	</div>' . "\n";
-		$wrap .= '  <div class="panel-body">' . "\n";
-		$wrap .= $body . "\n";
-		$wrap .= '  </div>' . "\n";
-		$wrap .= '</div>' . "\n";
 		return $wrap;
 	}
 	public function wrapNavigation($h1, $menuItem, $naviLinks) {
