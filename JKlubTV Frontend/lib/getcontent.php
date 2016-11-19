@@ -30,7 +30,7 @@ function showMenu() {
 		$data = json_decode ( $json, true );
 		for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
 			
-			$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . strip_tags ( $data ["groupName"] [$i] ) . '</a></li>' . "\n";
+			$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . strip_tags ( $data ["groupName"] [$i] ) . '</a></li>';
 		}
 	}
 	
@@ -73,7 +73,7 @@ function showGroupTable($index) {
 		
 		$allContent = file_get_contents ( $file );
 		for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
-			$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . htmlspecialchars ( $data ["groupName"] [$i] ) . '</a></li>' . "\n";
+			$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . htmlspecialchars ( $data ["groupName"] [$i] ) . '</a></li>';
 		}
 	}
 	
@@ -98,7 +98,7 @@ function createSidebarPanel($header, $body) {
 	$h1 = 'Test';
 	$sidebar = '<h1 class="well">' . $h1 . '</h1>';
 	for($i = 0; $i < count ( $header ); $i ++) {
-		$sidebarModule = $wrapper->wrapContent ( strip_tags ( $header [$i], $allowable_tags ), strip_tags ( $body [$i], $allowable_tags ), Wrap::GREYDIVCONTENT);
+		$sidebarModule = $wrapper->wrapContent ( strip_tags ( $header [$i], $allowable_tags ), strip_tags ( $body [$i], $allowable_tags ), Wrap::GREYDIVCONTENT );
 		$sidebar .= $wrapper->wrapSidebarModule ( $sidebarModule );
 	}
 	return $sidebar;
