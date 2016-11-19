@@ -4,6 +4,8 @@ if (isset ( $_GET ['param'] )) {
 	$index = $_GET ['param'];
 	if ($index >= 0 && $index < 20 && is_numeric($index)) {
 		echo showGroupTable ( htmlentities ( $index ) );
+	} else {
+		exit;
 	}
 } else {
 	echo showMenu ();
