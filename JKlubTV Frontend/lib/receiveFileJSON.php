@@ -15,6 +15,7 @@ if ($login != true) {
 		echo "Ok";
 	} else {
 		echo "POST is not set";
+		exit;
 	}
 }
 ?>
