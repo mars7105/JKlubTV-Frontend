@@ -59,17 +59,17 @@ function createHTMLTables() {
 			
 			$crosstable = $data ["crossTable"] [$i];
 			$cTable = createTable ( $crosstable );
-			
+			$crossHeader = strip_tags ( $data ["crossHeader"] [$i], $allowable_tags );
 			$crossTableText = strip_tags ( $data ["crossTableText"] [$i], $allowable_tags );
-			$cTable .= $crossTableText;
+			$cTable .= $wrapper->wrapContent ( $crossHeader, $crossTableText, Wrap::GREYDIVCONTENT );
 			$greenCrossContent = $wrapper->wrapContent ( $greenCrossH1, $cTable, Wrap::GREYDIVCONTENT );
 			
 			// MEETINGTABLE
 			$meetingtable = $data ["meetingTable"] [$i];
 			$mTable = createTable ( $meetingtable );
-			
+			$meetingHeader = strip_tags ( $data ["meetingHeader"] [$i], $allowable_tags );
 			$meetingTableText = strip_tags ( $data ["meetingTableText"] [$i], $allowable_tags );
-			$mTable .= $meetingTableText;
+			$mTable .= $wrapper->wrapContent ( $meetingHeader, $meetingTableText, Wrap::GREYDIVCONTENT );
 			$greenMeetingContent = $wrapper->wrapContent ( $greenMeetingH1, $mTable, Wrap::GREYDIVCONTENT );
 			
 			$allContent = '<h1 class="well">' . $greyH1 . '</h1>';
