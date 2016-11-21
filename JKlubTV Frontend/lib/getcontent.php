@@ -33,7 +33,7 @@ function showMenu() {
 			$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . strip_tags ( $data ["groupName"] [$i] ) . '</a></li>';
 		}
 	}
-	
+	$color = $data ["color"];
 	$menuName = strip_tags ( $data ["menuName"] );
 	$content = $wrapper->wrapNavigation ( strip_tags ( $data ["siteName"] ), $menuName, $menuLinks );
 	$content .= '<div class="container theme-showcase" role="main">
@@ -42,7 +42,7 @@ function showMenu() {
 	$content .= '</div> <!-- col-sm-8 blog-main -->';
 	$sidePanelsheader = $data ["sidePanelsheader"];
 	$sidePanelsbody = $data ["sidePanelsbody"];
-	$sidebar .= createSidebarPanel ( $sidePanelsheader, $sidePanelsbody );
+	$sidebar .= createSidebarPanel ( $sidePanelsheader, $sidePanelsbody, $color );
 	$content .= $wrapper->wrapSidebar ( $sidebar ) . '</div> <!--container -->';
 	$content .= createFooter ();
 	
@@ -76,6 +76,7 @@ function showGroupTable($index) {
 			$menuLinks .= '<li><a href="index.php?param=' . $i . '" >' . htmlspecialchars ( $data ["groupName"] [$i] ) . '</a></li>';
 		}
 	}
+	$color = $data ["color"];
 	
 	$menuName = htmlspecialchars ( $data ["menuName"] );
 	$content = $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menuName, $menuLinks );
@@ -86,19 +87,21 @@ function showGroupTable($index) {
 	$content .= '</div> <!-- col-sm-8 blog-main -->';
 	$sidePanelsheader = $data ["sidePanelsheader"];
 	$sidePanelsbody = $data ["sidePanelsbody"];
-	$sidebar .= createSidebarPanel ( $sidePanelsheader, $sidePanelsbody );
+	$sidebar .= createSidebarPanel ( $sidePanelsheader, $sidePanelsbody, $color );
 	$content .= $wrapper->wrapSidebar ( $sidebar ) . '</div> <!--container -->';
 	$content .= createFooter ();
 	
 	return $content;
 }
-function createSidebarPanel($header, $body) {
+function createSidebarPanel($header, $body, $color) {
 	$wrapper = new Wrap ();
+	
 	$allowable_tags = allowTags ();
 	$h1 = 'Test';
 	$sidebar = '<h1 class="well">' . $h1 . '</h1>';
 	for($i = 0; $i < count ( $header ); $i ++) {
-		$sidebarModule = $wrapper->wrapContent ( strip_tags ( $header [$i], $allowable_tags ), strip_tags ( $body [$i], $allowable_tags ), Wrap::GREYDIVCONTENT );
+		
+		$sidebarModule = $wrapper->wrapContent ( strip_tags ( $header [$i], $allowable_tags ), strip_tags ( $body [$i], $allowable_tags ), $color [$i] );
 		$sidebar .= $wrapper->wrapSidebarModule ( $sidebarModule );
 	}
 	return $sidebar;

@@ -47,6 +47,8 @@ function createHTMLTables() {
 		fclose ( $handle );
 		$data = json_decode ( $json, true );
 		// $timeStampJSON = $data ["timeStamp"];
+		$crossTableColor = $data ["crossTableColor"];
+		$meetingTableColor = $data ["meetingTableColor"];
 		for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
 			// CROSSTABLE
 			$allContent = '';
@@ -61,16 +63,16 @@ function createHTMLTables() {
 			$cTable = createTable ( $crosstable );
 			$crossHeader = strip_tags ( $data ["crossHeader"] [$i], $allowable_tags );
 			$crossTableText = strip_tags ( $data ["crossTableText"] [$i], $allowable_tags );
-			$cTable .= $wrapper->wrapContent ( $crossHeader, $crossTableText, Wrap::GREYDIVCONTENT );
-			$greenCrossContent = $wrapper->wrapContent ( $greenCrossH1, $cTable, Wrap::GREYDIVCONTENT );
+			$cTable .= $wrapper->wrapContent ( $crossHeader, $crossTableText, $crossTableColor [$i] );
+			$greenCrossContent = $wrapper->wrapContent ( $greenCrossH1, $cTable, $crossTableColor [$i] );
 			
 			// MEETINGTABLE
 			$meetingtable = $data ["meetingTable"] [$i];
 			$mTable = createTable ( $meetingtable );
 			$meetingHeader = strip_tags ( $data ["meetingHeader"] [$i], $allowable_tags );
 			$meetingTableText = strip_tags ( $data ["meetingTableText"] [$i], $allowable_tags );
-			$mTable .= $wrapper->wrapContent ( $meetingHeader, $meetingTableText, Wrap::GREYDIVCONTENT );
-			$greenMeetingContent = $wrapper->wrapContent ( $greenMeetingH1, $mTable, Wrap::GREYDIVCONTENT );
+			$mTable .= $wrapper->wrapContent ( $meetingHeader, $meetingTableText, $meetingTableColor [$i] );
+			$greenMeetingContent = $wrapper->wrapContent ( $greenMeetingH1, $mTable, $meetingTableColor [$i] );
 			
 			$allContent = '<h1 class="well">' . $greyH1 . '</h1>';
 			$allContent .= $greenCrossContent . $greenMeetingContent;
