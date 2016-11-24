@@ -92,11 +92,13 @@ function createHTMLTables() {
 			$content .= $wrapper->wrapSidebar ( $sidebar ) . '</div> <!--container -->';
 			$content .= createFooter ();
 			$content .= $htmlend;
-			$filename = 'tables/file-' . $i . '-' . time() . '.html';
+			$hash = createHash ( $data ["tournamentName"] . $data ["groupName"][$i] );
+			$filename = 'tables/file-' . $hash . '.html';
 			$file = "../" . $filename;
 			file_put_contents ( $file, $content );
 			$contentFiles [] = $filename;
 		}
+		
 		$configfile = "../jsonFiles/contentfiles.json";
 		$bodytag = json_encode ( $contentFiles, JSON_UNESCAPED_SLASHES );
 		
@@ -148,6 +150,10 @@ function createFooter() {
 		</p>
 	</footer>';
 	return $wrap;
+}
+function createHash($string) {
+	$hash = hash ( 'sha256', $string );
+	return $hash;
 }
 function allowTags() {
 	return "<p><br><br/><br />";
