@@ -7,7 +7,7 @@ if ($login != true) {
 	exit;
 } else {
 	if ((isset ( $_POST ))) {
-		$configfile = "../jsonFiles/config.json";
+		$configfile = "../temp/config.json";
 		$string = htmlspecialchars ( $_POST ["jsonFiles"] );
 		$bodytag = html_entity_decode ( $string, ENT_QUOTES );
 		

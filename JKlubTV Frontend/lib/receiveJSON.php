@@ -10,7 +10,7 @@ if ($login != true) {
 		$string = $_POST ["json"];
 		$jsonFileName = $_POST ["jsonFileName"];
 		$menuName = $_POST ["menuName"];
-		$file = htmlspecialchars ( '../jsonFiles/' . $jsonFileName );
+		$file = htmlspecialchars ( '../temp/' . $jsonFileName );
 		$bodytag = html_entity_decode ( $string, ENT_QUOTES );
 		file_put_contents ( $file, $bodytag );
 		

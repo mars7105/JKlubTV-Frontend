@@ -7,7 +7,7 @@ if ($index >= 0 && $index < 20 && is_numeric ( $index )) {
 }
 
 function showGroupTable($index) {
-	$configfile = "jsonFiles/contentfiles.json";
+	$configfile = "temp/contentfiles.json";
 	$handle = fopen ( $configfile, "r" );
 	$json = fread ( $handle, filesize ( $configfile ) );
 	fclose ( $handle );

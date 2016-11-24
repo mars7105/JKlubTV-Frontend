@@ -16,17 +16,17 @@ if ($login != true) {
 	}
 }
 function createHTMLTables() {
-	$filename = "../html/htmlstart.html";
+	$filename = "html/htmlstart.html";
 	$handle = fopen ( $filename, "r" );
 	$htmlstart = fread ( $handle, filesize ( $filename ) );
 	fclose ( $handle );
-	$filename = "../html/htmlend.html";
+	$filename = "html/htmlend.html";
 	$handle = fopen ( $filename, "r" );
 	$htmlend = fread ( $handle, filesize ( $filename ) );
 	fclose ( $handle );
 	$allowable_tags = allowTags ();
 	$wrapper = new Wrap ();
-	$configJSON = '../jsonFiles/config.json';
+	$configJSON = '../temp/config.json';
 	$handle = fopen ( $configJSON, "r" );
 	$json = fread ( $handle, filesize ( $configJSON ) );
 	fclose ( $handle );
@@ -93,13 +93,13 @@ function createHTMLTables() {
 			$content .= createFooter ();
 			$content .= $htmlend;
 			$hash = createHash ( $data ["tournamentName"] . $data ["groupName"][$i] );
-			$filename = 'tables/file-' . $hash . '.html';
+			$filename = 'temp/file-' . $hash . '.html';
 			$file = "../" . $filename;
 			file_put_contents ( $file, $content );
 			$contentFiles [] = $filename;
 		}
 		
-		$configfile = "../jsonFiles/contentfiles.json";
+		$configfile = "../temp/contentfiles.json";
 		$bodytag = json_encode ( $contentFiles, JSON_UNESCAPED_SLASHES );
 		
 		file_put_contents ( $configfile, $bodytag );
