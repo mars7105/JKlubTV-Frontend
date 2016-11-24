@@ -1,5 +1,4 @@
 <?php
-include 'wrap.php';
 if (isset ( $_GET ['param'] )) {
 	$index = htmlentities ( $_GET ['param'] );
 	if ($index >= 0 && $index < 20 && is_numeric ( $index )) {
