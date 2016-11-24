@@ -10,7 +10,7 @@ if (isset ( $_GET ['param'] )) {
 	echo showGroupTable ( 0 );
 }
 function showGroupTable($index) {
-	$configfile = "contentfiles.json";
+	$configfile = "jsonFiles/contentfiles.json";
 	$handle = fopen ( $configfile, "r" );
 	$json = fread ( $handle, filesize ( $configfile ) );
 	fclose ( $handle );
