@@ -1,24 +1,6 @@
 <?php
 class Wrap {
-	// Defining constants
-	// const GREYDIVCONTENT = 'panel-default';
-	// const DARKBLUEDIVCONTENT = 'panel-primary';
-	// const LIGHTBLUEDIVCONTENT = 'panel-info';
-	// const YELLOWDIVCONTENT = 'panel-warning';
-	// const REDDIVCONTENT = 'panel-danger';
-	// const GREENDIVCONTENT = 'panel-success';
-	
-	//
 	public function wrapContent($h1, $body, $color) {
-// 		$colorArray = array (
-// 				'panel-default',
-// 				'panel-primary',
-// 				'panel-info',
-// 				'panel-warning',
-// 				'panel-danger',
-// 				'panel-success' 
-// 		);
-// 		$sidePanelColor = $colorArray [$color];
 		$sidePanelColor = $this->getColor ( $color );
 		$wrap = '<div class="panel ' . $sidePanelColor . '">' . "\n";
 		$wrap .= '  <div class="panel-heading">' . "\n";
@@ -45,7 +27,7 @@ class Wrap {
 	}
 	public function wrapNavigation($h1, $menuItem, $naviLinks) {
 		$wrap = '  
-          <p class="navbar-brand"><a href="' . $_SERVER ['PHP_SELF'] . '">' . $h1 . '</a></p>
+          <p class="navbar-brand">' . $h1 . '</p>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
