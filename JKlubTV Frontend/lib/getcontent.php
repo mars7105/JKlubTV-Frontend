@@ -1,17 +1,13 @@
 <?php
-include 'wrap.php';
-if (isset ( $_GET ['param'] )) {
-	$index = htmlentities ( $_GET ['param'] );
-	if ($index >= 0 && $index < 20 && is_numeric ( $index )) {
-		echo showGroupTable ( $index );
-	} else {
-		echo showGroupTable ( 0 );
-	}
+$index = htmlentities ( strip_tags ( $_GET ['param'] ) );
+if ($index >= 0 && $index < 20 && is_numeric ( $index )) {
+	echo showGroupTable ( $index );
 } else {
 	echo showGroupTable ( 0 );
 }
+
 function showGroupTable($index) {
-	$configfile = "contentfiles.json";
+	$configfile = "temp/contentfiles.json";
 	$handle = fopen ( $configfile, "r" );
 	$json = fread ( $handle, filesize ( $configfile ) );
 	fclose ( $handle );

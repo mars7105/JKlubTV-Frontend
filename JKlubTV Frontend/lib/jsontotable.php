@@ -16,17 +16,17 @@ if ($login != true) {
 	}
 }
 function createHTMLTables() {
-	$filename = "../html/htmlstart.html";
+	$filename = "html/htmlstart.html";
 	$handle = fopen ( $filename, "r" );
 	$htmlstart = fread ( $handle, filesize ( $filename ) );
 	fclose ( $handle );
-	$filename = "../html/htmlend.html";
+	$filename = "html/htmlend.html";
 	$handle = fopen ( $filename, "r" );
 	$htmlend = fread ( $handle, filesize ( $filename ) );
 	fclose ( $handle );
 	$allowable_tags = allowTags ();
 	$wrapper = new Wrap ();
-	$configJSON = '../config.json';
+	$configJSON = '../temp/config.json';
 	$handle = fopen ( $configJSON, "r" );
 	$json = fread ( $handle, filesize ( $configJSON ) );
 	fclose ( $handle );
@@ -88,16 +88,18 @@ function createHTMLTables() {
 			$content .= '</div> <!-- col-sm-8 blog-main -->';
 			$sidePanelsheader = $data ["sidePanelsheader"];
 			$sidePanelsbody = $data ["sidePanelsbody"];
-			$sidebar .= createSidebarPanel ( $sidePanelsheader, $sidePanelsbody, $color );
+			$sidebar = createSidebarPanel ( $sidePanelsheader, $sidePanelsbody, $color );
 			$content .= $wrapper->wrapSidebar ( $sidebar ) . '</div> <!--container -->';
 			$content .= createFooter ();
 			$content .= $htmlend;
-			$filename = 'tables/' . htmlspecialchars ( $data ["tournamentName"] ) . '-' . htmlspecialchars ( $data ["groupName"] [$i] ) . '.html';
+			$hash = createHash ( $data ["tournamentName"] . $data ["groupName"][$i] );
+			$filename = 'temp/file-' . $hash . '.html';
 			$file = "../" . $filename;
 			file_put_contents ( $file, $content );
 			$contentFiles [] = $filename;
 		}
-		$configfile = "../contentfiles.json";
+		
+		$configfile = "../temp/contentfiles.json";
 		$bodytag = json_encode ( $contentFiles, JSON_UNESCAPED_SLASHES );
 		
 		file_put_contents ( $configfile, $bodytag );
@@ -108,7 +110,6 @@ function createTable($table) {
 	$tempTable = '';
 	$tempTable .= '<table class="table table-bordered well">' . "\n";
 	$counter = 0;
-	// $crosstable = $data ["crossTable"];
 	foreach ( $table as $jsons ) {
 		$tempTable .= '  <tr>' . "\n";
 		
@@ -149,6 +150,10 @@ function createFooter() {
 		</p>
 	</footer>';
 	return $wrap;
+}
+function createHash($string) {
+	$hash = hash ( 'sha256', $string );
+	return $hash;
 }
 function allowTags() {
 	return "<p><br><br/><br />";
