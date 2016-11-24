@@ -1,14 +1,11 @@
 <?php
-if (isset ( $_GET ['param'] )) {
-	$index = htmlentities ( $_GET ['param'] );
-	if ($index >= 0 && $index < 20 && is_numeric ( $index )) {
-		echo showGroupTable ( $index );
-	} else {
-		echo showGroupTable ( 0 );
-	}
+$index = htmlentities ( strip_tags ( $_GET ['param'] ) );
+if ($index >= 0 && $index < 20 && is_numeric ( $index )) {
+	echo showGroupTable ( $index );
 } else {
 	echo showGroupTable ( 0 );
 }
+
 function showGroupTable($index) {
 	$configfile = "jsonFiles/contentfiles.json";
 	$handle = fopen ( $configfile, "r" );
