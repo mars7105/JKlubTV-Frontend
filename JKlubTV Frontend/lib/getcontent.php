@@ -1,11 +1,10 @@
 <?php
 $index = htmlentities ( strip_tags ( $_GET ['param'] ) );
 if ($index >= 0 && $index < 20 && is_numeric ( $index )) {
-	echo showGroupTable ( $index );
+	showGroupTable ( $index );
 } else {
-	echo showGroupTable ( 0 );
+	showGroupTable ( 0 );
 }
-
 function showGroupTable($index) {
 	$configfile = "temp/contentfiles.json";
 	$handle = fopen ( $configfile, "r" );
@@ -16,12 +15,13 @@ function showGroupTable($index) {
 	$filename = $jsonFiles [$index];
 	if (file_exists ( $filename )) {
 		// liest den Inhalt einer Datei in einen String
-		$handle = fopen ( $filename, "r" );
-		$file = fread ( $handle, filesize ( $filename ) );
-		fclose ( $handle );
+		// $handle = fopen ( $filename, "r" );
+		// $file = fread ( $handle, filesize ( $filename ) );
+		// fclose ( $handle );
+		include $filename;
 	}
 	
-	return $file;
+	// return $file;
 }
 
 ?>
