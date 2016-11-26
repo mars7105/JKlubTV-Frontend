@@ -12,6 +12,7 @@ if ($login != true) {
 		$bodytag = html_entity_decode ( $string, ENT_QUOTES );
 		
 		file_put_contents ( $configfile, $bodytag );
+// 		chmod($configfile, 640);...
 		echo "Ok";
 	} else {
 		echo "POST is not set";
