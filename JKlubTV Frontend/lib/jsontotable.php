@@ -92,8 +92,8 @@ function createHTMLTables() {
 			$content .= $wrapper->wrapSidebar ( $sidebar ) . '</div> <!--container -->';
 			$content .= createFooter ();
 			$content .= $htmlend;
-			$hash = createHash ( $data ["tournamentName"] . $data ["groupName"][$i] );
-			$filename = 'temp/file-' . $hash . '.html';
+			$hash = $data ["md5Sum"];
+			$filename = 'temp/file-' . $hash . '-' . $i . '.html';
 			$file = "../" . $filename;
 			file_put_contents ( $file, $content );
 			$contentFiles [] = $filename;
