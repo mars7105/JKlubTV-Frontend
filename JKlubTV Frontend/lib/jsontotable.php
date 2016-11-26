@@ -103,7 +103,7 @@ function createHTMLTables() {
 		$bodytag = json_encode ( $contentFiles, JSON_UNESCAPED_SLASHES );
 		
 		file_put_contents ( $configfile, $bodytag );
-// 		chmod($configfile, 640);
+// 		chmod($configfile, 640);...
 	}
 }
 function createTable($table) {

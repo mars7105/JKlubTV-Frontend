@@ -13,7 +13,7 @@ if ($login != true) {
 		$file = htmlspecialchars ( '../temp/' . $jsonFileName );
 		$bodytag = html_entity_decode ( $string, ENT_QUOTES );
 		file_put_contents ( $file, $bodytag );
-// 		chmod($file, 640);
+// 		chmod($file, 640);...
 		
 		echo "Ok";
 	} else {
