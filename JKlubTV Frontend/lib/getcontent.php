@@ -6,11 +6,14 @@ if ($index >= 0 && $index < 20 && is_numeric ( $index )) {
 	showGroupTable ( 0 );
 }
 function showGroupTable($index) {
-	$configfile = "temp/contentfiles.json";
+	// $configfile = "temp/contentfiles.json";
+	$configfile = "temp/config.json";
 	$handle = fopen ( $configfile, "r" );
 	$json = fread ( $handle, filesize ( $configfile ) );
 	fclose ( $handle );
-	$jsonFiles = json_decode ( $json );
+	$jsonArray = json_decode ( $json, true );
+	$jsonFiles = $jsonArray ['htmlfiles'];
+	// $jsonFiles = json_decode ( $json );
 	
 	$filename = $jsonFiles [$index];
 	if (file_exists ( $filename )) {
