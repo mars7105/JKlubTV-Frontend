@@ -98,12 +98,25 @@ function createHTMLTables() {
 			file_put_contents ( $file, $content );
 			$contentFiles [] = $filename;
 		}
+		$configfile = "../temp/config.json";
+		if (file_exists ( $configfile )) {
+			// liest den Inhalt einer Datei in einen String
+			$handle = fopen ( $configfile, "r" );
+			$configjson = fread ( $handle, filesize ( $configfile ) );
+			fclose ( $handle );
+			$configdata = json_decode ( $configjson, true );
+			$configarray ['jsonfilename'] = $configdata;
+			$configarray ['htmlfiles'] = $contentFiles;
+			
+			$configarrayjson = json_encode ( $configarray, JSON_UNESCAPED_SLASHES );
+			
+			file_put_contents ( $configfile, $configarrayjson );
+		}
 		
-		$configfile = "../temp/contentfiles.json";
-		$bodytag = json_encode ( $contentFiles, JSON_UNESCAPED_SLASHES );
+		// $configfile = "../temp/contentfiles.json";
+		// $bodytag = json_encode ( $contentFiles, JSON_UNESCAPED_SLASHES );
 		
-		file_put_contents ( $configfile, $bodytag );
-// 		chmod($configfile, 640);...
+		// file_put_contents ( $configfile, $bodytag );
 	}
 }
 function createTable($table) {
