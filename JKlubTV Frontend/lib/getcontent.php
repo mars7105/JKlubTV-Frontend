@@ -12,7 +12,8 @@ function showGroupTable($index) {
 	$json = fread ( $handle, filesize ( $configfile ) );
 	fclose ( $handle );
 	$jsonArray = json_decode ( $json, true );
-	$jsonFiles = $jsonArray ['htmlfiles'];
+	$jsonFiles = $jsonArray ['htmlfiles'] [0];
+	
 	// $jsonFiles = json_decode ( $json );
 	
 	$filename = $jsonFiles [$index];

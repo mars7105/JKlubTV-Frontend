@@ -34,89 +34,78 @@ function createHTMLTables() {
 	
 	$content = '';
 	$menuLinks = '';
-	$filename = '../' . $jsonFiles ['filename'];
+	// $filename = $jsonFiles ['filename'];
+	$htmlfiles = $jsonFiles ['htmlfiles'];
 	
-	if (file_exists ( $filename )) {
-		// liest den Inhalt einer Datei in einen String
-		$handle = fopen ( $filename, "r" );
-		$json = fread ( $handle, filesize ( $filename ) );
-		fclose ( $handle );
-		$data = json_decode ( $json, true );
-		$crossTableColor = $data ["crossTableColor"];
-		$meetingTableColor = $data ["meetingTableColor"];
-		for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
-			// CROSSTABLE
-			$content = $htmlstart;
-			$menuLinks = '';
-			$allContent = '';
-			$greyContent = '';
-			$greenCrossContent = '';
-			$greenMeetingContent = '';
-			$greyH1 = strip_tags ( $data ["tournamentName"], $allowable_tags ) . ' - ' . strip_tags ( $data ["groupName"] [$i], $allowable_tags );
-			$greenCrossH1 = strip_tags ( $data ["jsonCrossTitle"], $allowable_tags );
-			$greenMeetingH1 = strip_tags ( $data ["jsonMeetingtitle"], $allowable_tags );
+	$countindex = 0;
+	foreach ( $jsonFiles ['filename'] as $filename ) {
+		if (file_exists ( $filename )) {
+			// liest den Inhalt einer Datei in einen String
+			$handle = fopen ( $filename, "r" );
+			$json = fread ( $handle, filesize ( $filename ) );
+			fclose ( $handle );
+			$data = json_decode ( $json, true );
+			// $hash = createHash ( $data ["md5Sum"] );
 			
-			$crosstable = $data ["crossTable"] [$i];
-			$cTable = createTable ( $crosstable );
-			$crossHeader = strip_tags ( $data ["crossHeader"] [$i], $allowable_tags );
-			$crossTableText = strip_tags ( $data ["crossTableText"] [$i], $allowable_tags );
-			$cTable .= $wrapper->wrapContent ( $crossHeader, $crossTableText, $crossTableColor [$i] );
-			$greenCrossContent = $wrapper->wrapContent ( $greenCrossH1, $cTable, $crossTableColor [$i] );
-			
-			// MEETINGTABLE
-			$meetingtable = $data ["meetingTable"] [$i];
-			$mTable = createTable ( $meetingtable );
-			$meetingHeader = strip_tags ( $data ["meetingHeader"] [$i], $allowable_tags );
-			$meetingTableText = strip_tags ( $data ["meetingTableText"] [$i], $allowable_tags );
-			$mTable .= $wrapper->wrapContent ( $meetingHeader, $meetingTableText, $meetingTableColor [$i] );
-			$greenMeetingContent = $wrapper->wrapContent ( $greenMeetingH1, $mTable, $meetingTableColor [$i] );
-			
-			$allContent = '<h1 class="well">' . $greyH1 . '</h1>';
-			$allContent .= $greenCrossContent . $greenMeetingContent;
-			
-			$color = $data ["color"];
-			for($index = 0; $index < count ( $data ["groupName"] ); $index ++) {
+			$crossTableColor = $data ["crossTableColor"];
+			$meetingTableColor = $data ["meetingTableColor"];
+			for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
+				// CROSSTABLE
+				$content = $htmlstart;
+				$menuLinks = '';
+				$allContent = '';
+				$greyContent = '';
+				$greenCrossContent = '';
+				$greenMeetingContent = '';
+				$greyH1 = strip_tags ( $data ["tournamentName"], $allowable_tags ) . ' - ' . strip_tags ( $data ["groupName"] [$i], $allowable_tags );
+				$greenCrossH1 = strip_tags ( $data ["jsonCrossTitle"], $allowable_tags );
+				$greenMeetingH1 = strip_tags ( $data ["jsonMeetingtitle"], $allowable_tags );
 				
-				$menuLinks .= '<li><a href="index.php?param=' . $index . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a></li>';
-			}
-			$menuName = htmlspecialchars ( $data ["menuName"] );
-			$content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menuName, $menuLinks );
-			$content .= '<div class="container theme-showcase" role="main">
+				$crosstable = $data ["crossTable"] [$i];
+				$cTable = createTable ( $crosstable );
+				$crossHeader = strip_tags ( $data ["crossHeader"] [$i], $allowable_tags );
+				$crossTableText = strip_tags ( $data ["crossTableText"] [$i], $allowable_tags );
+				$cTable .= $wrapper->wrapContent ( $crossHeader, $crossTableText, $crossTableColor [$i] );
+				$greenCrossContent = $wrapper->wrapContent ( $greenCrossH1, $cTable, $crossTableColor [$i] );
+				
+				// MEETINGTABLE
+				$meetingtable = $data ["meetingTable"] [$i];
+				$mTable = createTable ( $meetingtable );
+				$meetingHeader = strip_tags ( $data ["meetingHeader"] [$i], $allowable_tags );
+				$meetingTableText = strip_tags ( $data ["meetingTableText"] [$i], $allowable_tags );
+				$mTable .= $wrapper->wrapContent ( $meetingHeader, $meetingTableText, $meetingTableColor [$i] );
+				$greenMeetingContent = $wrapper->wrapContent ( $greenMeetingH1, $mTable, $meetingTableColor [$i] );
+				
+				$allContent = '<h1 class="well">' . $greyH1 . '</h1>';
+				$allContent .= $greenCrossContent . $greenMeetingContent;
+				
+				$color = $data ["color"];
+				for($index = 0; $index < count ( $data ["groupName"] ); $index ++) {
+					
+					$menuLinks .= '<li><a href="index.php?param=' . $index . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a></li>';
+				}
+				$menuName = htmlspecialchars ( $data ["menuName"] );
+				$content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menuName, $menuLinks );
+				$content .= '<div class="container theme-showcase" role="main">
 	<!-- Main jumbotron for a primary marketing message or call to action -->
 	<div class="col-md-8">';
-			$content .= $allContent;
-			$content .= '</div> <!-- col-sm-8 blog-main -->';
-			$sidePanelsheader = $data ["sidePanelsheader"];
-			$sidePanelsbody = $data ["sidePanelsbody"];
-			$sidebar = createSidebarPanel ( $sidePanelsheader, $sidePanelsbody, $color );
-			$content .= $wrapper->wrapSidebar ( $sidebar ) . '</div> <!--container -->';
-			$content .= createFooter ();
-			$content .= $htmlend;
-			$hash = $data ["md5Sum"];
-			$filename = 'temp/file-' . $hash . '-' . $i . '.html';
-			$file = "../" . $filename;
-			file_put_contents ( $file, $content );
-			$contentFiles [] = $filename;
+				$content .= $allContent;
+				$content .= '</div> <!-- col-sm-8 blog-main -->';
+				$sidePanelsheader = $data ["sidePanelsheader"];
+				$sidePanelsbody = $data ["sidePanelsbody"];
+				$sidebar = createSidebarPanel ( $sidePanelsheader, $sidePanelsbody, $color );
+				$content .= $wrapper->wrapSidebar ( $sidebar ) . '</div> <!--container -->';
+				$content .= createFooter ();
+				$content .= $htmlend;
+				
+				$file = '../' . $htmlfiles [$countindex] [$i];
+				
+				// $htmlfiles [$index] [$i] = "../temp/" . $htmlfiles [$index] [$i];
+				file_put_contents ( $file, $content );
+			}
+			// $configfile = "../temp/config.json";
+			$countindex ++;
 		}
-		$configfile = "../temp/config.json";
-		if (file_exists ( $configfile )) {
-			// liest den Inhalt einer Datei in einen String
-			$handle = fopen ( $configfile, "r" );
-			$configjson = fread ( $handle, filesize ( $configfile ) );
-			fclose ( $handle );
-			$configdata = json_decode ( $configjson, true );
-			$configarray ['jsonfilename'] = $configdata;
-			$configarray ['htmlfiles'] = $contentFiles;
-			
-			$configarrayjson = json_encode ( $configarray, JSON_UNESCAPED_SLASHES );
-			
-			file_put_contents ( $configfile, $configarrayjson );
-		}
-		
-		// $configfile = "../temp/contentfiles.json";
-		// $bodytag = json_encode ( $contentFiles, JSON_UNESCAPED_SLASHES );
-		
-		// file_put_contents ( $configfile, $bodytag );
 	}
 }
 function createTable($table) {
