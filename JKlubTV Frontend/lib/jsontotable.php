@@ -95,7 +95,7 @@ function createHTMLTables() {
 				$content .= $allContent;
 				
 				$content .= '</div> ';
-				$h1 = '<h1 class="well">' . $data ["menuName"] . '</h1>' . "\n";
+				$h1 = '<h1 class="well">Navigation</h1>' . "\n";
 				
 				$content .= $wrapper->wrapSidebar ( $h1 . $menus );
 				$content .= '<!-- col-sm-8 blog-main -->';
@@ -154,8 +154,10 @@ function makedashboardmenus($jsonFiles) {
 	$content = "";
 	$menuindex = 0;
 	$menus = "";
-	$sidebarModule = '';
+	
+	$menuBox = '';
 	foreach ( $jsonFiles ['filename'] as $filename ) {
+		
 		if (file_exists ( $filename )) {
 			$menuLinks = '';
 			// liest den Inhalt einer Datei in einen String
@@ -163,21 +165,20 @@ function makedashboardmenus($jsonFiles) {
 			$json = fread ( $handle, filesize ( $filename ) );
 			fclose ( $handle );
 			$data = json_decode ( $json, true );
+			
 			$menuLinks .= '<ul>';
 			for($index = 0; $index < count ( $data ["groupName"] ); $index ++) {
 				
-				$menuLinks .= '<li><a class="btn btn-success" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a></li>' . "\n";
+				$menuLinks .= '<li><a class="btn btn-default" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a></li>' . "\n";
 				$menuindex ++;
 			}
 			$menuLinks .= '</ul>';
-			$menuName = htmlspecialchars ( $data ["tournamentName"] );
-			// $menus .= $wrapper->wrapMenu ( $menuName, $menuLinks );
-			$sidebarModule .= $wrapper->wrapContent ( $menuName, $menuLinks, 5 );
-			// $sidebar = $wrapper->wrapSidebarModule ( $sidebarModule );
+			$menuBox .= $wrapper->wrapContent ( htmlspecialchars ( $data ["tournamentName"] ), $menuLinks, 0 );
+			
 		}
 	}
-	
-	$menus = $sidebarModule;
+	$menuName = htmlspecialchars ( $data ["menuName"] );
+	$menus .= $wrapper->wrapContent ( $menuName, $menuBox, 0 );
 	
 	// $content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menus );
 	
