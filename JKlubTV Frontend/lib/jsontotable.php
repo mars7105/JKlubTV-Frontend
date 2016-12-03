@@ -93,14 +93,21 @@ function createHTMLTables() {
 	<!-- Main jumbotron for a primary marketing message or call to action -->
 	<div class="col-md-8">';
 				$content .= $allContent;
-				$h1 = 'Test';
+				
 				$content .= '</div> ';
-				$content .= $wrapper->wrapSidebar ( '<h1 class="well">' . $h1 . '</h1>' . $menus );
+				$h1 = '<h1 class="well">' . $data ["menuName"] . '</h1>' . "\n";
+				
+				$content .= $wrapper->wrapSidebar ( $h1 . $menus );
 				$content .= '<!-- col-sm-8 blog-main -->';
+				
+				$h1 = '<h1 class="well">Information</h1>' . "\n";
+				if (count ( $data ["sidePanelsheader"] ) == 0) {
+					$h1 = '';
+				}
 				$sidePanelsheader = $data ["sidePanelsheader"];
 				$sidePanelsbody = $data ["sidePanelsbody"];
 				$sidebar = createSidebarPanel ( $sidePanelsheader, $sidePanelsbody, $color );
-				$content .= $wrapper->wrapSidebar ( $sidebar ) . '</div> <!--container -->';
+				$content .= $wrapper->wrapSidebar ( $h1 . $sidebar ) . '</div> <!--container -->';
 				$content .= createFooter ();
 				$content .= $htmlend;
 				
@@ -163,7 +170,7 @@ function makedashboardmenus($jsonFiles) {
 				$menuindex ++;
 			}
 			$menuLinks .= '</ul>';
-			$menuName = htmlspecialchars ( $data ["menuName"] );
+			$menuName = htmlspecialchars ( $data ["tournamentName"] );
 			// $menus .= $wrapper->wrapMenu ( $menuName, $menuLinks );
 			$sidebarModule .= $wrapper->wrapContent ( $menuName, $menuLinks, 5 );
 			// $sidebar = $wrapper->wrapSidebarModule ( $sidebarModule );
