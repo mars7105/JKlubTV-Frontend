@@ -56,5 +56,17 @@ class Wrap {
 		$wrap = '<div class="sidebar-module">' . $body . '</div>';
 		return $wrap;
 	}
+	public function wrapDashboardMenu($menuItems) {
+// 		$wrap = '<div class="col-md-4 sidebar">' . "\n";
+		$wrap .= '	<ul class="nav nav-sidebar">' . "\n";
+		$wrap .= $menuItems . "\n";
+		$wrap .= '	</ul>' . "\n";
+// 		$wrap .= '</div>' . "\n";
+		return $wrap;
+	}
+	public function wrapDashboardMenuItem($menuItem) {
+		$wrap = '<li><a href="">' . $menuItem . '</a></li>' . "\n";
+		return $wrap;
+	}
 }
 ?>

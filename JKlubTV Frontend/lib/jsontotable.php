@@ -38,7 +38,8 @@ function createHTMLTables() {
 	$htmlfiles = $jsonFiles ['htmlfiles'];
 	
 	$countindex = 0;
-	$menus = makemenus ( $jsonFiles );
+	// $menus = makemenus ( $jsonFiles );
+	$menus = makedashboardmenus ( $jsonFiles );
 	foreach ( $jsonFiles ['filename'] as $filename ) {
 		if (file_exists ( $filename )) {
 			// liest den Inhalt einer Datei in einen String
@@ -53,6 +54,7 @@ function createHTMLTables() {
 			for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
 				// CROSSTABLE
 				$content = $htmlstart;
+				$content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), '' );
 				$menuLinks = '';
 				$allContent = '';
 				$greyContent = '';
@@ -81,18 +83,16 @@ function createHTMLTables() {
 				$allContent .= $greenCrossContent . $greenMeetingContent;
 				
 				$color = $data ["color"];
-				// for($index = 0; $index < count ( $data ["groupName"] ); $index ++) {
 				
-				// $menuLinks .= '<li><a href="index.php?param=' . $index . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a></li>';
-				// }
-				// $menuName = htmlspecialchars ( $data ["menuName"] );
-				// $content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menuName, $menuLinks );
-				$content .= $menus;
+				// $content .= $menus;
 				$content .= '<div class="container theme-showcase" role="main">
 	<!-- Main jumbotron for a primary marketing message or call to action -->
 	<div class="col-md-8">';
 				$content .= $allContent;
-				$content .= '</div> <!-- col-sm-8 blog-main -->';
+				$h1 = 'Test';
+				$content .= '</div> ';
+				$content .= $wrapper->wrapSidebar ( '<h1 class="well">' . $h1 . '</h1>' . $menus );
+				$content .= '<!-- col-sm-8 blog-main -->';
 				$sidePanelsheader = $data ["sidePanelsheader"];
 				$sidePanelsbody = $data ["sidePanelsbody"];
 				$sidebar = createSidebarPanel ( $sidePanelsheader, $sidePanelsbody, $color );
@@ -114,7 +114,7 @@ function makemenus($jsonFiles) {
 	$wrapper = new Wrap ();
 	$content = "";
 	$menuindex = 0;
-	$menus ="";
+	$menus = "";
 	foreach ( $jsonFiles ['filename'] as $filename ) {
 		if (file_exists ( $filename )) {
 			// liest den Inhalt einer Datei in einen String
@@ -137,6 +137,40 @@ function makemenus($jsonFiles) {
 	$content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menus );
 	
 	return $content;
+}
+function makedashboardmenus($jsonFiles) {
+	$wrapper = new Wrap ();
+	$content = "";
+	$menuindex = 0;
+	$menus = "";
+	$sidebarModule = '';
+	foreach ( $jsonFiles ['filename'] as $filename ) {
+		if (file_exists ( $filename )) {
+			$menuLinks = '';
+			// liest den Inhalt einer Datei in einen String
+			$handle = fopen ( $filename, "r" );
+			$json = fread ( $handle, filesize ( $filename ) );
+			fclose ( $handle );
+			$data = json_decode ( $json, true );
+			$menuLinks .= '<ul>';
+			for($index = 0; $index < count ( $data ["groupName"] ); $index ++) {
+				
+				$menuLinks .= '<li><a class="btn btn-success" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a></li>' . "\n";
+				$menuindex ++;
+			}
+			$menuLinks .= '</ul>';
+			$menuName = htmlspecialchars ( $data ["menuName"] );
+			// $menus .= $wrapper->wrapMenu ( $menuName, $menuLinks );
+			$sidebarModule .= $wrapper->wrapContent ( $menuName, $menuLinks, 5 );
+			// $sidebar = $wrapper->wrapSidebarModule ( $sidebarModule );
+		}
+	}
+	
+	$menus = $sidebarModule;
+	
+	// $content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menus );
+	
+	return $menus;
 }
 function createTable($table) {
 	$allowable_tags = allowTags ();
@@ -163,8 +197,7 @@ function createSidebarPanel($header, $body, $color) {
 	$wrapper = new Wrap ();
 	
 	$allowable_tags = allowTags ();
-	$h1 = 'Test';
-	$sidebar = '<h1 class="well">' . $h1 . '</h1>';
+	$sidebar = "";
 	for($i = 0; $i < count ( $header ); $i ++) {
 		
 		$sidebarModule = $wrapper->wrapContent ( strip_tags ( $header [$i], $allowable_tags ), strip_tags ( $body [$i], $allowable_tags ), $color [$i] );
