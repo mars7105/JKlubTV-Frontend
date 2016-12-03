@@ -25,23 +25,27 @@ class Wrap {
 		$sidePanelColor = $colorArray [$color];
 		return $sidePanelColor;
 	}
-	public function wrapNavigation($h1, $menuItem, $naviLinks) {
+	public function wrapNavigation($h1, $menu) {
 		$wrap = '  
           <p class="navbar-brand">' . $h1 . '</p>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-			<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $menuItem . '<span class="caret"></span></a>
-              <ul class="dropdown-menu">';
-		$wrap .= $naviLinks . "\n";
+          <ul class="nav navbar-nav">';
+		$wrap .= $menu . "\n";
 		$wrap .= '    </ul>
-            </li>
-          </ul>
+           
         </div><!--/.nav-collapse -->
       </div>
     </nav>';
 		
+		return $wrap;
+	}
+	public function wrapMenu($menuName, $naviLinks) {
+		$wrap = '<li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' . $menuName . '<span class="caret"></span></a>
+              <ul class="dropdown-menu">';
+		$wrap .= $naviLinks . "\n";
+		$wrap .= "</ul></li>" . "\n";
 		return $wrap;
 	}
 	public function wrapSidebar($body) {

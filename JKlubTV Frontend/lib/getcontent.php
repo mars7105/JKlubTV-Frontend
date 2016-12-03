@@ -12,16 +12,21 @@ function showGroupTable($index) {
 	$json = fread ( $handle, filesize ( $configfile ) );
 	fclose ( $handle );
 	$jsonArray = json_decode ( $json, true );
-	$jsonFiles = $jsonArray ['htmlfiles'] [0];
-	
-	
+	$keyindex = 0;
+	foreach ( $jsonArray ['htmlfiles'] as $key ) {
+		for($i = 0; $i < count ( $key ); $i ++) {
+			$jsonFiles [$keyindex] = $key [$i];
+			$keyindex ++;
+		}
+		
+// 		$file = '../' . $htmlfiles [$countindex] [$i];
+	}
 	
 	$filename = $jsonFiles [$index];
 	if (file_exists ( $filename )) {
 		
 		include $filename;
 	}
-	
 }
 
 ?>

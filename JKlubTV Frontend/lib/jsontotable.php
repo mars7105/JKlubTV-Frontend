@@ -38,6 +38,7 @@ function createHTMLTables() {
 	$htmlfiles = $jsonFiles ['htmlfiles'];
 	
 	$countindex = 0;
+	$menus = makemenus ( $jsonFiles );
 	foreach ( $jsonFiles ['filename'] as $filename ) {
 		if (file_exists ( $filename )) {
 			// liest den Inhalt einer Datei in einen String
@@ -80,12 +81,13 @@ function createHTMLTables() {
 				$allContent .= $greenCrossContent . $greenMeetingContent;
 				
 				$color = $data ["color"];
-				for($index = 0; $index < count ( $data ["groupName"] ); $index ++) {
-					
-					$menuLinks .= '<li><a href="index.php?param=' . $index . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a></li>';
-				}
-				$menuName = htmlspecialchars ( $data ["menuName"] );
-				$content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menuName, $menuLinks );
+				// for($index = 0; $index < count ( $data ["groupName"] ); $index ++) {
+				
+				// $menuLinks .= '<li><a href="index.php?param=' . $index . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a></li>';
+				// }
+				// $menuName = htmlspecialchars ( $data ["menuName"] );
+				// $content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menuName, $menuLinks );
+				$content .= $menus;
 				$content .= '<div class="container theme-showcase" role="main">
 	<!-- Main jumbotron for a primary marketing message or call to action -->
 	<div class="col-md-8">';
@@ -107,6 +109,34 @@ function createHTMLTables() {
 			$countindex ++;
 		}
 	}
+}
+function makemenus($jsonFiles) {
+	$wrapper = new Wrap ();
+	$content = "";
+	$menuindex = 0;
+	$menus ="";
+	foreach ( $jsonFiles ['filename'] as $filename ) {
+		if (file_exists ( $filename )) {
+			// liest den Inhalt einer Datei in einen String
+			$handle = fopen ( $filename, "r" );
+			$json = fread ( $handle, filesize ( $filename ) );
+			fclose ( $handle );
+			$data = json_decode ( $json, true );
+			$menuLinks = '';
+			
+			for($index = 0; $index < count ( $data ["groupName"] ); $index ++) {
+				
+				$menuLinks .= '<li><a href="index.php?param=' . $menuindex . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a></li>';
+				$menuindex ++;
+			}
+			
+			$menuName = htmlspecialchars ( $data ["menuName"] );
+			$menus .= $wrapper->wrapMenu ( $menuName, $menuLinks );
+		}
+	}
+	$content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menus );
+	
+	return $content;
 }
 function createTable($table) {
 	$allowable_tags = allowTags ();

@@ -10,7 +10,7 @@ if ($login != true) {
 		$jsonFiles = html_entity_decode ( htmlspecialchars ( $_POST ["jsonFiles"] ), ENT_QUOTES );
 		$findFile = checkConfig ( $jsonFiles );
 		if ($findFile) {
-			// saveConfig ( $jsonFiles );
+			
 		} else {
 			$jsonArray = json_decode ( $jsonFiles, true );
 			$htmlfiles = $jsonArray ['htmlfiles'];
@@ -34,6 +34,7 @@ if ($login != true) {
 			}
 			saveConfig ( $resultjson );
 		}
+		echo "Ok";
 	} else {
 		echo "POST is not set";
 		exit ();
@@ -44,7 +45,7 @@ function saveConfig($jsonFiles) {
 	
 	file_put_contents ( $configfile, $jsonFiles );
 	
-	echo "Ok";
+	
 }
 function checkConfig($jsonFiles) {
 	$configfile = '../temp/config.json';
@@ -59,7 +60,7 @@ function checkConfig($jsonFiles) {
 		$jsonFilesArray = json_decode ( $jsonFiles, true );
 		// $searchArray = $jsonFilesArray ['filename'];
 		$key = array_search ( $jsonFilesArray ['filename'] [0], $filename );
-		echo $key;
+// 		echo $key;
 		if (false !== $key) {
 			return true;
 		} else {
