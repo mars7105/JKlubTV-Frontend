@@ -31,4 +31,7 @@ body {
 	margin-bottom: 0;
 }
 
-
+li {
+	list-style: none;
+	margin: 5px;
+}

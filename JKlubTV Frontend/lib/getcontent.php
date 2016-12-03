@@ -12,20 +12,20 @@ function showGroupTable($index) {
 	$json = fread ( $handle, filesize ( $configfile ) );
 	fclose ( $handle );
 	$jsonArray = json_decode ( $json, true );
-	$jsonFiles = $jsonArray ['htmlfiles'] [0];
-	
-	// $jsonFiles = json_decode ( $json );
+	$keyindex = 0;
+	foreach ( $jsonArray ['htmlfiles'] as $key ) {
+		for($i = 0; $i < count ( $key ); $i ++) {
+			$jsonFiles [$keyindex] = $key [$i];
+			$keyindex ++;
+		}
+		
+	}
 	
 	$filename = $jsonFiles [$index];
 	if (file_exists ( $filename )) {
-		// liest den Inhalt einer Datei in einen String
-		// $handle = fopen ( $filename, "r" );
-		// $file = fread ( $handle, filesize ( $filename ) );
-		// fclose ( $handle );
+		
 		include $filename;
 	}
-	
-	// return $file;
 }
 
 ?>
