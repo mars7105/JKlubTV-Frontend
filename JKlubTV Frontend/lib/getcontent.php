@@ -19,7 +19,6 @@ function showGroupTable($index) {
 			$keyindex ++;
 		}
 		
-// 		$file = '../' . $htmlfiles [$countindex] [$i];
 	}
 	
 	$filename = $jsonFiles [$index];
