@@ -39,7 +39,7 @@ function createHTMLTables() {
 	
 	$countindex = 0;
 	// $menus = makemenus ( $jsonFiles );
-	$menus = makedashboardmenus ( $jsonFiles );
+	$result = "";
 	foreach ( $jsonFiles ['filename'] as $filename ) {
 		if (file_exists ( $filename )) {
 			// liest den Inhalt einer Datei in einen String
@@ -96,7 +96,7 @@ function createHTMLTables() {
 				
 				$content .= '</div> ';
 				$h1 = '<h1 class="well">Navigation</h1>' . "\n";
-				
+				$menus = makedashboardmenus ( $jsonFiles, $countindex, $i );
 				$content .= $wrapper->wrapSidebar ( $h1 . $menus );
 				$content .= '<!-- col-sm-8 blog-main -->';
 				
@@ -112,14 +112,15 @@ function createHTMLTables() {
 				$content .= $htmlend;
 				
 				$file = '../' . $htmlfiles [$countindex] [$i];
-				
-				// $htmlfiles [$index] [$i] = "../temp/" . $htmlfiles [$index] [$i];
+				$result [] = $htmlfiles [$countindex] [$i];
 				file_put_contents ( $file, $content );
 			}
-			// $configfile = "../temp/config.json";
 			$countindex ++;
 		}
 	}
+	$file = '../temp/menus.json';
+	$resultjson = json_encode ( $result, JSON_UNESCAPED_SLASHES );
+	file_put_contents ( $file, $resultjson );
 }
 function makemenus($jsonFiles) {
 	$wrapper = new Wrap ();
@@ -149,37 +150,43 @@ function makemenus($jsonFiles) {
 	
 	return $content;
 }
-function makedashboardmenus($jsonFiles) {
+function makedashboardmenus($jsonFiles, $countindex, $groupindex) {
 	$wrapper = new Wrap ();
 	$content = "";
 	$menuindex = 0;
 	$menus = "";
-	
+	$menuLinks = '';
 	$menuBox = '';
+	$cindex = 0;
 	foreach ( $jsonFiles ['filename'] as $filename ) {
 		
 		if (file_exists ( $filename )) {
-			$menuLinks = '';
+			
 			// liest den Inhalt einer Datei in einen String
 			$handle = fopen ( $filename, "r" );
 			$json = fread ( $handle, filesize ( $filename ) );
 			fclose ( $handle );
 			$data = json_decode ( $json, true );
 			
-			$menuLinks .= '<ul>';
+			$menuLinks .= '<div class="list-group">';
+			$menuLinks .= '<span class="list-group-item alert-info">' . $data ["tournamentName"] . '</span>';
+			
 			for($index = 0; $index < count ( $data ["groupName"] ); $index ++) {
-				
-				$menuLinks .= '<li><a class="btn btn-default" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a></li>' . "\n";
+				if ($countindex == $cindex && $groupindex == $index) {
+					$menuLinks .= '<a class="list-group-item active" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a>' . "\n";
+				} else {
+					$menuLinks .= '<a class="list-group-item" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a>' . "\n";
+				}
 				$menuindex ++;
 			}
-			$menuLinks .= '</ul>';
-			$menuBox .= $wrapper->wrapContent ( htmlspecialchars ( $data ["tournamentName"] ), $menuLinks, 0 );
-			
+			$menuLinks .= '</div>';
+			// $menuBox .= $wrapper->wrapContent ( htmlspecialchars ( $data ["tournamentName"] ), $menuLinks, 0 );
 		}
+		$cindex ++;
 	}
 	$menuName = htmlspecialchars ( $data ["menuName"] );
-	$menus .= $wrapper->wrapContent ( $menuName, $menuBox, 0 );
-	
+	// $menus .= $wrapper->wrapContent ( $menuName, $menuLinks, 0 );
+	$menus .= $menuLinks;
 	// $content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), $menus );
 	
 	return $menus;
