@@ -14,6 +14,14 @@ class File {
 		fclose ( $handle );
 		return $htmlend;
 	}
+	public function getConfigJson() {
+		$configJSON = '../temp/config.json';
+		$handle = fopen ( $configJSON, "r" );
+		$json = fread ( $handle, filesize ( $configJSON ) );
+		fclose ( $handle );
+		$jsonFiles = json_decode ( $json, true );
+		return $jsonFiles;
+	}
 	public function getJson($filename) {
 		// liest den Inhalt einer Datei in einen String
 		$handle = fopen ( $filename, "r" );
