@@ -26,12 +26,8 @@ function createHTMLTables() {
 	$allowable_tags = allowTags ();
 	$wrapper = new Wrap ();
 	$tableContent = new TableContent ();
-	$configJSON = '../temp/config.json';
-	$handle = fopen ( $configJSON, "r" );
-	$json = fread ( $handle, filesize ( $configJSON ) );
-	fclose ( $handle );
-	$jsonFiles = json_decode ( $json, true );
-	
+
+	$jsonFiles = $file->getConfigJson();
 	$content = '';
 	$menuLinks = '';
 	$htmlfiles = $jsonFiles ['htmlfiles'];
