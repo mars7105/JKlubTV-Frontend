@@ -19,8 +19,8 @@ if ($login != true) {
 		exit ();
 	}
 }
-function createHash($string) {
-	$hash = hash ( 'sha256', $string );
-	return $hash;
-}
+// function createHash($string) {
+// 	$hash = hash ( 'sha256', $string );
+// 	return $hash;
+// }
 ?>
