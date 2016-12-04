@@ -1,74 +1,65 @@
 <?php
 $login = false;
 include 'checklogin.php';
+include 'file.php';
 if ($login != true) {
 	echo "Wrong Username or Password!";
 	// das Programm normal beenden
 	exit ();
 } else {
-	if ((isset ( $_POST ))) {
-		$jsonFiles = html_entity_decode ( htmlspecialchars ( $_POST ["jsonFiles"] ), ENT_QUOTES );
-		$findFile = checkConfig ( $jsonFiles );
-		if ($findFile) {
+	if (isset ( $_POST )) {
+		$jsonFiles = html_entity_decode ( $_POST ["jsonFiles"], ENT_QUOTES );
+		
+		$jsonArray = json_decode ( $jsonFiles, true );
+		$findFile = checkConfig ( $jsonArray );
+		if ($findFile == true) {
 			
+			echo "Ok";
 		} else {
-			$jsonArray = json_decode ( $jsonFiles, true );
-			$htmlfiles = $jsonArray ['htmlfiles'];
-			$filename = $jsonArray ['filename'];
-			
-			$configfile = '../temp/config.json';
-			$handle = fopen ( $configfile, "r" );
-			$json = fread ( $handle, filesize ( $configfile ) );
-			fclose ( $handle );
-			$jsonArray2 = json_decode ( $json, true );
-			
-			$htmlfiles2 = $jsonArray2 ['htmlfiles'];
-			$filename2 = $jsonArray2 ['filename'];
-			if ($htmlfiles2 == null || $filename2 == null) {
-				$resultjson = $jsonFiles;
-			} else {
-				$result ['filename'] = array_merge ( $filename, $filename2 );
-				$result ['htmlfiles'] = array_merge ( $htmlfiles, $htmlfiles2 );
-				
-				$resultjson = json_encode ( $result, JSON_UNESCAPED_SLASHES );
-			}
-			saveConfig ( $resultjson );
+			mergeJson ( $jsonArray );
+			echo "Ok";
 		}
-		echo "Ok";
 	} else {
 		echo "POST is not set";
 		exit ();
 	}
 }
-function saveConfig($jsonFiles) {
-	$configfile = "../temp/config.json";
+function mergeJson($jsonArray) {
+	$file = new File ();
+	$htmlfiles = $jsonArray ['htmlfiles'];
+	$filename = $jsonArray ['filename'];
 	
-	file_put_contents ( $configfile, $jsonFiles );
+	$jsonArray2 = $file->getConfigJson ();
 	
+	$htmlfiles2 = $jsonArray2 ['htmlfiles'];
+	$filename2 = $jsonArray2 ['filename'];
+	if ($htmlfiles2 == null || $filename2 == null) {
+		$result = $jsonArray;
+	} else {
+		$result ['filename'] = array_merge ( $filename, $filename2 );
+		$result ['htmlfiles'] = array_merge ( $htmlfiles, $htmlfiles2 );
+	}
 	
+	$file->writeConfigJson ( $result );
 }
 function checkConfig($jsonFiles) {
-	$configfile = '../temp/config.json';
-	if (file_exists ( $configfile )) {
-		$handle = fopen ( $configfile, "r" );
-		$json = fread ( $handle, filesize ( $configfile ) );
-		fclose ( $handle );
-		$jsonArray = json_decode ( $json, true );
-		
+	$file = new File ();
+	$jsonArray = $file->getConfigJson ();
+	
+	if ($jsonArray != null) {
 		$htmlfiles = $jsonArray ['htmlfiles'];
 		$filename = $jsonArray ['filename'];
-		$jsonFilesArray = json_decode ( $jsonFiles, true );
-		// $searchArray = $jsonFilesArray ['filename'];
-		$key = array_search ( $jsonFilesArray ['filename'] [0], $filename );
-// 		echo $key;
-		if (false !== $key) {
-			return true;
-		} else {
+		
+		$key = array_search ( $jsonFiles ['filename'] [0], $filename );
+		if (false === $key) {
 			return false;
+		} else {
+			return true;
 		}
 	} else {
-		saveConfig ( $jsonFiles );
+		$file->writeConfigJson ( $jsonFiles );
 		return true;
 	}
 }
+
 ?>
