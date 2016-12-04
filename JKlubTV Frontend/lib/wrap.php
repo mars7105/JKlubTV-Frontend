@@ -27,7 +27,7 @@ class Wrap {
 	}
 	public function wrapNavigation($h1, $menu) {
 		$wrap = '  
-          <p class="navbar-brand">' . $h1 . '</p>
+          <p class="navbar-brand">'. $h1 . '</p>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">';

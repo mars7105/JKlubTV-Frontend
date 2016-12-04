@@ -26,8 +26,8 @@ function createHTMLTables() {
 	$allowable_tags = allowTags ();
 	$wrapper = new Wrap ();
 	$tableContent = new TableContent ();
-
-	$jsonFiles = $file->getConfigJson();
+	
+	$jsonFiles = $file->getConfigJson ();
 	$content = '';
 	$menuLinks = '';
 	$htmlfiles = $jsonFiles ['htmlfiles'];
@@ -44,7 +44,7 @@ function createHTMLTables() {
 			for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
 				
 				$content = $htmlstart;
-				$content .= $wrapper->wrapNavigation ( htmlspecialchars ( $data ["siteName"] ), '' );
+				$content .= $wrapper->wrapNavigation ( '', '' );
 				$menuLinks = '';
 				
 				// CROSSTABLE
