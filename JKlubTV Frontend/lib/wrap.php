@@ -57,16 +57,51 @@ class Wrap {
 		return $wrap;
 	}
 	public function wrapDashboardMenu($menuItems) {
-// 		$wrap = '<div class="col-md-4 sidebar">' . "\n";
-		$wrap .= '	<ul class="nav nav-sidebar">' . "\n";
+		// $wrap = '<div class="col-md-4 sidebar">' . "\n";
+		$wrap = '	<ul class="nav nav-sidebar">' . "\n";
 		$wrap .= $menuItems . "\n";
 		$wrap .= '	</ul>' . "\n";
-// 		$wrap .= '</div>' . "\n";
+		// $wrap .= '</div>' . "\n";
 		return $wrap;
 	}
 	public function wrapDashboardMenuItem($menuItem) {
 		$wrap = '<li><a href="">' . $menuItem . '</a></li>' . "\n";
 		return $wrap;
+	}
+	public function getContainer() {
+		$content = '<div class="container theme-showcase" role="main">
+	<!-- Main jumbotron for a primary marketing message or call to action -->
+	<div class="col-md-8">';
+		return $content;
+	}
+	public function wrapHeader($header) {
+		$h1 = '<h1 class="well">' . $header . '</h1>' . "\n";
+		return $h1;
+	}
+	public function createFooter() {
+		$wrap = '
+	<footer class="blog-footer">
+		<p>
+			<a href="http://getbootstrap.com">Bootstrap</a>
+		</p>
+		<p>
+			<a href="#">Back to top</a>
+		</p>
+	</footer>';
+		return $wrap;
+	}
+	public function createSidebarPanel($header, $body, $color) {
+		$allowable_tags = $this->allowTags ();
+		$sidebar = "";
+		for($i = 0; $i < count ( $header ); $i ++) {
+			
+			$sidebarModule = $this->wrapContent ( strip_tags ( $header [$i], $allowable_tags ), strip_tags ( $body [$i], $allowable_tags ), $color [$i] );
+			$sidebar .= $this->wrapSidebarModule ( $sidebarModule );
+		}
+		return $sidebar;
+	}
+	public function allowTags() {
+		return "<p><br><br/><br />";
 	}
 }
 ?>
