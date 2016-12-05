@@ -14,28 +14,18 @@
 //
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
-$index = htmlentities ( strip_tags ( $_GET ['param'] ) );
-if ($index >= 0 && $index < 20 && is_numeric ( $index )) {
-	showGroupTable ( $index );
-} else {
-	showGroupTable ( 0 );
-}
-function showGroupTable($index) {
-	$configfile = "temp/menus.json";
-	$handle = fopen ( $configfile, "r" );
-	$json = fread ( $handle, filesize ( $configfile ) );
-	fclose ( $handle );
-	$jsonArray = json_decode ( $json, true );
-	
-	$filename = $jsonArray [$index];
-	if (file_exists ( $filename )) {
-		// include $filename;
-		$handle = fopen ( $filename, "r" );
-		$content = fread ( $handle, filesize ( $filename ) );
-		fclose ( $handle );
-		echo $content;
+
+class Crosstablemodul {
+	public function createTable($data,$i) {
+		// CROSSTABLE
+		$tableContent = new TableContent ();
+		$crosstable = $data ["crossTable"] [$i];
+		$crossTableColor = $data ["crossTableColor"];
+		$crossHeader = strip_tags ( $data ["crossHeader"] [$i], $allowable_tags );
+		$crossTableText = strip_tags ( $data ["crossTableText"] [$i], $allowable_tags );
+		$crossH1 = strip_tags ( $data ["jsonCrossTitle"], $allowable_tags );
+		$cTable = $tableContent->createTable ( $crosstable, $crossHeader, $crossTableText, $crossTableColor [$i], $crossH1 );
+		return $cTable;
 	}
 }
-
 ?>
-	

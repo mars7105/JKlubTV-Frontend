@@ -1,4 +1,19 @@
 <?php
+// JKlubTV - Ein Programm zum verwalten von Schach Turnieren
+// Copyright (C) 2015 Martin Schmuck m_schmuck@gmx.net
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
 class Wrap {
 	public function wrapContent($h1, $body, $color) {
 		$sidePanelColor = $this->getColor ( $color );
@@ -27,7 +42,7 @@ class Wrap {
 	}
 	public function wrapNavigation($h1, $menu) {
 		$wrap = '  
-          <p class="navbar-brand">'. $h1 . '</p>
+          <p class="navbar-brand">' . $h1 . '</p>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">';
@@ -68,10 +83,13 @@ class Wrap {
 		$wrap = '<li><a href="">' . $menuItem . '</a></li>' . "\n";
 		return $wrap;
 	}
-	public function getContainer() {
+	public function createContainer($tables) {
 		$content = '<div class="container theme-showcase" role="main">
 	<!-- Main jumbotron for a primary marketing message or call to action -->
 	<div class="col-md-8">';
+		$content .= $tables;
+		
+		$content .= '</div> ';
 		return $content;
 	}
 	public function wrapHeader($header) {
@@ -99,6 +117,24 @@ class Wrap {
 			$sidebar .= $this->wrapSidebarModule ( $sidebarModule );
 		}
 		return $sidebar;
+	}
+	public function wrapListGroup($header, $item) {
+		$menuLinks = '';
+		$menuLinks .= '<div class="list-group">';
+		$menuLinks .= '  <span class="list-group-item alert-info">' . $header . '</span>';
+		$menuLinks .= $item;
+		$menuLinks .= '</div>';
+		
+		return $menuLinks;
+	}
+	public function wrapListGroupItem($menuindex, $groupName) {
+		$menuLinks = '<a class="list-group-item" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $groupName ) . '</a>' . "\n";
+		return $menuLinks;
+	}
+	public function wrapListGroupItemActive($menuindex, $groupName) {
+		$menuLinks = '<a class="list-group-item active" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $groupName ) . '</a>' . "\n";
+		
+		return $menuLinks;
 	}
 	public function allowTags() {
 		return "<p><br><br/><br />";
