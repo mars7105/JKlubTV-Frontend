@@ -1,8 +1,10 @@
 <?php
 $login = false;
+include 'statusjson.php';
+$status = new Statusjson ();
 include 'checklogin.php';
 if ($login != true) {
-	echo "Wrong Username or Password!";
+	echo $status->sendStatusLoginError();
 	// das Programm normal beenden
 	exit ();
 } else {
@@ -13,14 +15,11 @@ if ($login != true) {
 		$bodytag = html_entity_decode ( $string, ENT_QUOTES );
 		file_put_contents ( $file, $bodytag );
 		
-		echo "Ok";
+		echo $status->sendStatusOk ();
 	} else {
-		echo "POST is not set";
+		echo $status->sendStatusPostnotSetError ();
 		exit ();
 	}
 }
-// function createHash($string) {
-// 	$hash = hash ( 'sha256', $string );
-// 	return $hash;
-// }
+
 ?>

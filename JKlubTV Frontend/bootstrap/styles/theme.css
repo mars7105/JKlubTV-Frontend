@@ -1,6 +1,7 @@
 body {
 	padding-top: 70px;
 	padding-bottom: 30px;
+	background-color: #f9f9f9;
 }
 
 .theme-dropdown .dropdown-menu {
@@ -35,3 +36,9 @@ li {
 	list-style: none;
 	margin: 5px;
 }
+div#navbar {
+	background-image:url("../../images/logo.png");
+	background-position: left center;
+    background-repeat: no-repeat;
+}
+

@@ -1,23 +1,30 @@
 <?php
 $login = false;
+include 'statusjson.php';
+$status = new Statusjson ();
 include 'checklogin.php';
 if ($login != true) {
-	echo "Wrong Username or Password!";
+	echo $status->sendStatusLoginError ();
 	// das Programm normal beenden
-	exit;
+	exit ();
 } else {
+	
 	if ((isset ( $_POST ))) {
+		
 		$test = htmlspecialchars ( $_POST ["test"] );
 		$cmp = "true";
 		if (strcmp ( $test, $cmp ) == 0) {
-			echo "Ok";
+			
+			echo $status->sendStatusOk ();
 		} else {
-			echo "POST is wrong";
-			exit;
+			
+			echo $status->sendStatusPostWrongError ();
+			exit ();
 		}
 	} else {
-		echo "POST is not set";
-		exit;
+		
+		echo $status->sendStatusPostnotSetError ();
+		exit ();
 	}
 }
 ?>
