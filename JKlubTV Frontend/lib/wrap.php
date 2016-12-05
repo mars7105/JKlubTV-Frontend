@@ -68,10 +68,13 @@ class Wrap {
 		$wrap = '<li><a href="">' . $menuItem . '</a></li>' . "\n";
 		return $wrap;
 	}
-	public function getContainer() {
+	public function createContainer($tables) {
 		$content = '<div class="container theme-showcase" role="main">
 	<!-- Main jumbotron for a primary marketing message or call to action -->
 	<div class="col-md-8">';
+		$content .= $tables;
+		
+		$content .= '</div> ';
 		return $content;
 	}
 	public function wrapHeader($header) {
