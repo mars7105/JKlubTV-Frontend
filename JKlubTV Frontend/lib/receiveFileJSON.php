@@ -1,9 +1,11 @@
 <?php
 $login = false;
-include 'checklogin.php';
+include 'statusjson.php';
 include 'file.php';
+$status = new Statusjson ();
+include 'checklogin.php';
 if ($login != true) {
-	echo "Wrong Username or Password!";
+	echo $status->sendStatusLoginError();
 	// das Programm normal beenden
 	exit ();
 } else {
@@ -14,13 +16,13 @@ if ($login != true) {
 		$findFile = checkConfig ( $jsonArray );
 		if ($findFile == true) {
 			
-			echo "Ok";
+			echo $status->sendStatusOk ();
 		} else {
 			mergeJson ( $jsonArray );
-			echo "Ok";
+			echo $status->sendStatusOk ();
 		}
 	} else {
-		echo "POST is not set";
+		echo $status->sendStatusPostnotSetError ();
 		exit ();
 	}
 }

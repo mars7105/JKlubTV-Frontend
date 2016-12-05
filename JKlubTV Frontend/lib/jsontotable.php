@@ -1,21 +1,22 @@
 <?php
 include 'wrap.php';
 include 'tablecontent.php';
+include 'statusjson.php';
 include 'file.php';
-
+$status = new Statusjson ();
 $login = false;
 include 'checklogin.php';
 if ($login != true) {
-	echo "Wrong Username or Password!";
+	echo $status->sendStatusLoginError();
 	// das Programm normal beenden
 	exit ();
 } else {
 	if (isset ( $_POST )) {
 		
 		createHTMLTables ();
-		echo "Ok";
+		echo $status->sendStatusOk ();
 	} else {
-		echo "POST is not set";
+		echo $status->sendStatusPostnotSetError ();
 	}
 }
 function createHTMLTables() {
