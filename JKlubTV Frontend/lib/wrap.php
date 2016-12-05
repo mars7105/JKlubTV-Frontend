@@ -27,7 +27,7 @@ class Wrap {
 	}
 	public function wrapNavigation($h1, $menu) {
 		$wrap = '  
-          <p class="navbar-brand">'. $h1 . '</p>
+          <p class="navbar-brand">' . $h1 . '</p>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">';
@@ -99,6 +99,24 @@ class Wrap {
 			$sidebar .= $this->wrapSidebarModule ( $sidebarModule );
 		}
 		return $sidebar;
+	}
+	public function wrapListGroup($header, $item) {
+		$menuLinks = '';
+		$menuLinks .= '<div class="list-group">';
+		$menuLinks .= '  <span class="list-group-item alert-info">' . $header . '</span>';
+		$menuLinks .= $item;
+		$menuLinks .= '</div>';
+		
+		return $menuLinks;
+	}
+	public function wrapListGroupItem($menuindex, $groupName) {
+		$menuLinks = '<a class="list-group-item" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $groupName ) . '</a>' . "\n";
+		return $menuLinks;
+	}
+	public function wrapListGroupItemActive($menuindex, $groupName) {
+		$menuLinks = '<a class="list-group-item active" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $groupName ) . '</a>' . "\n";
+		
+		return $menuLinks;
 	}
 	public function allowTags() {
 		return "<p><br><br/><br />";

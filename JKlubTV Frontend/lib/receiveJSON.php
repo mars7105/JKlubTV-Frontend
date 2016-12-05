@@ -4,7 +4,7 @@ include 'statusjson.php';
 $status = new Statusjson ();
 include 'checklogin.php';
 if ($login != true) {
-	echo $status->sendStatusLoginError();
+	echo $status->sendStatusLoginError ();
 	// das Programm normal beenden
 	exit ();
 } else {

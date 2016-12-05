@@ -7,7 +7,7 @@ $status = new Statusjson ();
 $login = false;
 include 'checklogin.php';
 if ($login != true) {
-	echo $status->sendStatusLoginError();
+	echo $status->sendStatusLoginError ();
 	// das Programm normal beenden
 	exit ();
 } else {
@@ -129,32 +129,32 @@ function makedashboardmenus($jsonFiles, $countindex, $groupindex) {
 	$content = "";
 	$menuindex = 0;
 	$menus = "";
-	$menuLinks = '';
+	
 	$menuBox = '';
 	$cindex = 0;
+	
 	foreach ( $jsonFiles ['filename'] as $filename ) {
 		
 		if (file_exists ( $filename )) {
 			$data = $file->getJson ( $filename );
 			// liest den Inhalt einer Datei in einen String
-			
-			$menuLinks .= '<div class="list-group">';
-			$menuLinks .= '<span class="list-group-item alert-info">' . $data ["tournamentName"] . '</span>';
+			$menuLinks = '';
+			$navi = '';
 			
 			for($index = 0; $index < count ( $data ["groupName"] ); $index ++) {
 				if ($countindex == $cindex && $groupindex == $index) {
-					$menuLinks .= '<a class="list-group-item active" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a>' . "\n";
+					$menuLinks .= $wrapper->wrapListGroupItemActive ( $menuindex, strip_tags ( $data ["groupName"] [$index] ) );
 				} else {
-					$menuLinks .= '<a class="list-group-item" href="index.php?param=' . $menuindex . '" >' . strip_tags ( $data ["groupName"] [$index] ) . '</a>' . "\n";
+					$menuLinks .= $wrapper->wrapListGroupItem ( $menuindex, strip_tags ( $data ["groupName"] [$index] ) );
 				}
 				$menuindex ++;
 			}
-			$menuLinks .= '</div>';
+			$navi = $wrapper->wrapListGroup ( $data ["tournamentName"], $menuLinks );
+			$menus .= $navi;
+			$cindex ++;
 		}
-		$cindex ++;
+		
 	}
-	$menuName = htmlspecialchars ( $data ["menuName"] );
-	$menus .= $menuLinks;
 	
 	return $menus;
 }
