@@ -25,6 +25,7 @@ class Crosstablemodul {
 		$crossTableText = strip_tags ( $data ["crossTableText"] [$i], $allowable_tags );
 		$crossH1 = strip_tags ( $data ["jsonCrossTitle"], $allowable_tags );
 		$cTable = $tableContent->createTable ( $crosstable, $crossHeader, $crossTableText, $crossTableColor [$i], $crossH1 );
+		
 		return $cTable;
 	}
 }
