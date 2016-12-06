@@ -14,19 +14,19 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-include 'wrap.php';
-include 'statusjson.php';
-include 'file.php';
+include 'classes/helperclasses/wrap.php';
+include 'classes/helperclasses/statusjson.php';
+include 'classes/helperclasses/file.php';
 $status = new Statusjson ();
 $login = false;
 include 'checklogin.php';
-include 'htmlmoduls/tablecontent.php';
-include 'htmlmoduls/headermodul.php';
-include 'htmlmoduls/footermodul.php';
-include 'htmlmoduls/crosstablemodul.php';
-include 'htmlmoduls/meetingtablemodul.php';
-include 'htmlmoduls/sidebarnavigationmodul.php';
-include 'htmlmoduls/sidebarcontentmodul.php';
+include 'classes/htmlmoduls/tablecontent.php';
+include 'classes/htmlmoduls/headermodul.php';
+include 'classes/htmlmoduls/footermodul.php';
+include 'classes/htmlmoduls/crosstablemodul.php';
+include 'classes/htmlmoduls/meetingtablemodul.php';
+include 'classes/htmlmoduls/sidebarnavigationmodul.php';
+include 'classes/htmlmoduls/sidebarcontentmodul.php';
 if ($login != true) {
 	echo $status->sendStatusLoginError ();
 	// das Programm normal beenden
@@ -52,7 +52,7 @@ function createHTMLTables() {
 	$content = '';
 	$menuLinks = '';
 	$htmlfiles = $jsonFiles ['htmlfiles'];
-	
+	$updateFile = $jsonFiles ['htmlfiles'];
 	$countindex = 0;
 	$result = "";
 	// Navi
@@ -75,27 +75,65 @@ function createHTMLTables() {
 			$sidebarPanelContent = $sidebarPanel->createSidebar ( $data );
 			for($i = 0; $i < count ( $data ["groupName"] ); $i ++) {
 				
-				$content = $htmlstart;
-				$content .= $wrapper->wrapNavigation ( '', '' );
+				$begin = $htmlstart;
+				
+				// Top Menu
+				$begin .= $wrapper->wrapNavigation ( '', '' );
+				$topmenufile = 'temp/' . $data ["md5Sum"] . '-' . $i . '-' . 'begin' . '.html';
+				$file->writeHTMLFile ( $topmenufile, $begin );
+				
+				$content .= $begin;
 				$menuLinks = '';
 				
+				// CROSSTABLE
+				$ctable = $crosstable->createTable ( $data, $i );
+				$ctablefile = 'temp/' . $data ["md5Sum"] . '-' . $i . '-' . 'crosstable' . '.html';
+				$file->writeHTMLFile ( $ctablefile, $ctable );
+				
+				// MEETINGTABLE
+				$mtable = $meetingtable->createTable ( $data, $i );
+				$mtablefile = 'temp/' . $data ["md5Sum"] . '-' . $i . '-' . 'meetingtable' . '.html';
+				$file->writeHTMLFile ( $mtablefile, $mtable );
+				
+				// Tables
 				$greyH1 = strip_tags ( $data ["tournamentName"], $allowable_tags ) . ' - ' . strip_tags ( $data ["groupName"] [$i], $allowable_tags );
+				$tableheader = $wrapper->wrapHeader ( $greyH1 );
+				$tables = $wrapper->createContainer ( $tableheader . $ctable . $mtable );
+				$tablesfile = 'temp/' . $data ["md5Sum"] . '-' . $i . '-' . 'tables' . '.html';
+				$file->writeHTMLFile ( $tablesfile, $tables );
+				$content .= $tables;
 				
-				$tables = $wrapper->wrapHeader ( $greyH1 );
+				// Navigator
+				$navi = $navigation->createSidebarNavi ( $jsonFiles, $countindex, $i );
+				$navifile = 'temp/' . $data ["md5Sum"] . '-' . $i . '-' . 'navigation' . '.html';
+				$file->writeHTMLFile ( $navifile, $navi );
+				$content .= $navi;
 				
-				$tables .= $crosstable->createTable ( $data, $i );
-				$tables .= $meetingtable->createTable ( $data, $i );
-				$content .= $wrapper->createContainer ( $tables );
-				
-				$content .= $navigation->createSidebarNavi ( $jsonFiles, $countindex, $i );
-				
+				// Sidebar Content
+				$sidebarfile = 'temp/' . $data ["md5Sum"] . '-' . $i . '-' . 'sidebar' . '.html';
+				$file->writeHTMLFile ( $sidebarfile, $sidebarPanelContent );
 				$content .= $sidebarPanelContent;
 				
-				$content .= $footer;
-				$content .= $htmlend;
+				// Footer
+				$end = $footer;
 				
-				$result [] = $htmlfiles [$countindex] [$i];
-				$file->writeHTMLFile ( $htmlfiles [$countindex] [$i], $content );
+				// End of htmml file
+				$end .= $htmlend;
+				$endfile = 'temp/' . $data ["md5Sum"] . '-' . $i . '-' . 'end' . '.html';
+				$file->writeHTMLFile ( $endfile, $end );
+				
+				$content .= $end;
+				
+				// $result [] = $data ["md5Sum"] . '-' . $i;
+				$result ['begin'] [] = $topmenufile;
+				$result ['crosstable'] [] = $ctablefile;
+				$result ['meetingtable'] [] = $mtablefile;
+				$result ['tables'] [] = $tablesfile;
+				$result ['navigation'] [] = $navifile;
+				$result ['sidebar'] [] = $sidebarfile;
+				$result ['end'] [] = $endfile;
+				// Save HTML File
+				// $file->writeHTMLFile ( $htmlfiles [$countindex] [$i], $content );
 			}
 			$countindex ++;
 		}
