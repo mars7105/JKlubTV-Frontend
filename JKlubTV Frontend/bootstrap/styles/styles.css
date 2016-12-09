@@ -22,12 +22,12 @@ body {
  */
 .blog-footer {
 	padding: 40px 0;
-	color: #999;
+	color: #BBB;
 	text-align: center;
-	/* background-color: #f9f9f9;*/
-	border-top: 1px solid #e5e5e5;
     background-image: linear-gradient(to bottom, #3c3c3c 0px, #222 100%);
     background-repeat: repeat-x;
+    border-radius: 4px;
+	border-top: 1px solid #e5e5e5;
 }
 
 .blog-footer p:last-child {
