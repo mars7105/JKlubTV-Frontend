@@ -19,23 +19,23 @@ class Statusjson {
 		$statusString ['statusCode'] = 'Ok';
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
-		$statusString ['PHPModul'] = $phpmodul;
+		$statusString ['phpModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
-	public function sendStatusError($phpmodul,$errorString) {
+	public function sendStatusError($phpmodul, $errorString) {
 		$statusString ['statusCode'] = $errorString;
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
-		$statusString ['PHPModul'] = $phpmodul;
+		$statusString ['phpModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
-	public function sendmd5Sum($phpmodul,$md5sum) {
+	public function sendmd5Sum($phpmodul, $md5sum) {
 		$statusString ['statusCode'] = 'Ok';
 		$statusString ['md5sum'] = $md5sum;
 		$statusString ['version'] = 'Frontend';
-		$statusString ['PHPModul'] = $phpmodul;
+		$statusString ['phpModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
@@ -43,7 +43,7 @@ class Statusjson {
 		$statusString ['statusCode'] = 'POST is not set';
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
-		$statusString ['PHPModul'] = $phpmodul;
+		$statusString ['phpModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
@@ -51,7 +51,7 @@ class Statusjson {
 		$statusString ['statusCode'] = 'POST is wrong';
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
-		$statusString ['PHPModul'] = $phpmodul;
+		$statusString ['phpModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
@@ -59,7 +59,7 @@ class Statusjson {
 		$statusString ['statusCode'] = 'Wrong Username or Password!';
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
-		$statusString ['PHPModul'] = $phpmodul;
+		$statusString ['phpModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
@@ -67,7 +67,7 @@ class Statusjson {
 		$statusString ['statusCode'] = 'Ok';
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
-		$statusString ['PHPModul'] = $phpmodul;
+		$statusString ['phpModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
