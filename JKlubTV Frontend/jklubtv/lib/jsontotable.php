@@ -35,8 +35,9 @@ if ($login != true) {
 } else {
 	if (isset ( $_POST )) {
 		
-		createHTMLTables ();
-		echo $status->sendStatusOk ( $phpmodul );
+		$result = createHTMLTables ();
+		
+		echo $status->sendmd5Sum ( $phpmodul, $result );
 	} else {
 		echo $status->sendStatusPostnotSetError ( $phpmodul );
 	}
@@ -133,13 +134,16 @@ function createHTMLTables() {
 				$result ['navigation'] [] = $navifile;
 				$result ['sidebar'] [] = $sidebarfile;
 				$result ['end'] [] = $endfile;
+				
 				// Save HTML File
 				// $file->writeHTMLFile ( $htmlfiles [$countindex] [$i], $content );
 			}
+			$md5sum [$countindex] = $data ["md5Sum"];
 			$countindex ++;
 		}
 	}
 	$file->writeMenuJson ( $result );
+	return $md5sum;
 }
 function createHash($string) {
 	$hash = hash ( 'sha256', $string );
