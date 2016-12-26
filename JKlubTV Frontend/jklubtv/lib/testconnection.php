@@ -18,8 +18,9 @@ $login = false;
 include 'classes/helperclasses/statusjson.php';
 $status = new Statusjson ();
 include 'checklogin.php';
+$phpmodul = 'testconnection.php';
 if ($login != true) {
-	echo $status->sendStatusLoginError ();
+	echo $status->sendStatusLoginError ( $phpmodul );
 	// das Programm normal beenden
 	exit ();
 } else {
@@ -30,15 +31,15 @@ if ($login != true) {
 		$cmp = "true";
 		if (strcmp ( $test, $cmp ) == 0) {
 			
-			echo $status->sendStatusOk ();
+			echo $status->sendStatusOk ( $phpmodul );
 		} else {
 			
-			echo $status->sendStatusPostWrongError ();
+			echo $status->sendStatusPostWrongError ( $phpmodul );
 			exit ();
 		}
 	} else {
 		
-		echo $status->sendStatusPostnotSetError ();
+		echo $status->sendStatusPostnotSetError ( $phpmodul );
 		exit ();
 	}
 }

@@ -18,28 +18,24 @@ $login = false;
 include 'classes/helperclasses/statusjson.php';
 $status = new Statusjson ();
 include 'checklogin.php';
+$phpmodul = 'receiveJSON.php';
 if ($login != true) {
-	echo $status->sendStatusLoginError ();
+	echo $status->sendStatusLoginError ( $phpmodul );
 	// das Programm normal beenden
 	exit ();
 } else {
-	
 	if ((isset ( $_POST ))) {
+		$string = $_POST ["json"];
+		$jsonFileName = $_POST ["jsonFileName"];
+		$file = htmlspecialchars ( '../temp/' . $jsonFileName );
+		$bodytag = html_entity_decode ( $string, ENT_QUOTES );
+		file_put_contents ( $file, $bodytag );
 		
-		$version = htmlspecialchars ( $_POST ["version"] );
-		$cmp = "true";
-		if (strcmp ( $version, $cmp ) == 0) {
-			
-			echo $status->sendStatusWebVersion ();
-		} else {
-			
-			echo $status->sendStatusPostWrongError ();
-			exit ();
-		}
+		echo $status->sendStatusOk ( $phpmodul );
 	} else {
-		
-		echo $status->sendStatusPostnotSetError ();
+		echo $status->sendStatusPostnotSetError ( $phpmodul );
 		exit ();
 	}
 }
+
 ?>
