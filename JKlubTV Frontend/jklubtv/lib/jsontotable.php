@@ -27,17 +27,18 @@ include 'classes/htmlmoduls/crosstablemodul.php';
 include 'classes/htmlmoduls/meetingtablemodul.php';
 include 'classes/htmlmoduls/sidebarnavigationmodul.php';
 include 'classes/htmlmoduls/sidebarcontentmodul.php';
+$phpmodul = 'jsontotable.php';
 if ($login != true) {
-	echo $status->sendStatusLoginError ();
+	echo $status->sendStatusLoginError ( $phpmodul );
 	// das Programm normal beenden
 	exit ();
 } else {
 	if (isset ( $_POST )) {
 		
 		createHTMLTables ();
-		echo $status->sendStatusOk ();
+		echo $status->sendStatusOk ( $phpmodul );
 	} else {
-		echo $status->sendStatusPostnotSetError ();
+		echo $status->sendStatusPostnotSetError ( $phpmodul );
 	}
 }
 function createHTMLTables() {

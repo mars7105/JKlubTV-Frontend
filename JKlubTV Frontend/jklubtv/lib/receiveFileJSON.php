@@ -19,8 +19,9 @@ include 'classes/helperclasses/statusjson.php';
 include 'classes/helperclasses/file.php';
 $status = new Statusjson ();
 include 'checklogin.php';
+$phpmodul = 'receiveFileJSON.php';
 if ($login != true) {
-	echo $status->sendStatusLoginError ();
+	echo $status->sendStatusLoginError ( $phpmodul );
 	// das Programm normal beenden
 	exit ();
 } else {
@@ -31,17 +32,16 @@ if ($login != true) {
 		$findFile = checkConfig ( $jsonArray );
 		if ($findFile == true) {
 			
-			echo $status->sendStatusOk ();
+			echo $status->sendStatusOk ( $phpmodul );
 		} else {
 			mergeJson ( $jsonArray );
-			echo $status->sendStatusOk ();
+			echo $status->sendStatusOk ( $phpmodul );
 		}
 	} else {
-		echo $status->sendStatusPostnotSetError ();
+		echo $status->sendStatusPostnotSetError ( $phpmodul );
 		exit ();
 	}
 }
-
 function mergeJson($jsonArray) {
 	$file = new File ();
 	$htmlfiles = $jsonArray ['htmlfiles'];

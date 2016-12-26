@@ -15,52 +15,59 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 class Statusjson {
-	public function sendStatusOk() {
+	public function sendStatusOk($phpmodul) {
 		$statusString ['statusCode'] = 'Ok';
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
+		$statusString ['PHPModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
-	public function sendStatusError($errorString) {
+	public function sendStatusError($phpmodul,$errorString) {
 		$statusString ['statusCode'] = $errorString;
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
+		$statusString ['PHPModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
-	public function sendmd5Sum($md5sum) {
+	public function sendmd5Sum($phpmodul,$md5sum) {
 		$statusString ['statusCode'] = 'Ok';
 		$statusString ['md5sum'] = $md5sum;
 		$statusString ['version'] = 'Frontend';
+		$statusString ['PHPModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
-	public function sendStatusPostnotSetError() {
+	public function sendStatusPostnotSetError($phpmodul) {
 		$statusString ['statusCode'] = 'POST is not set';
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
+		$statusString ['PHPModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
-	public function sendStatusPostWrongError() {
+	public function sendStatusPostWrongError($phpmodul) {
 		$statusString ['statusCode'] = 'POST is wrong';
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
+		$statusString ['PHPModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
-	public function sendStatusLoginError() {
+	public function sendStatusLoginError($phpmodul) {
 		$statusString ['statusCode'] = 'Wrong Username or Password!';
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
+		$statusString ['PHPModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}
-	public function sendStatusWebVersion() {
+	public function sendStatusWebVersion($phpmodul) {
 		$statusString ['statusCode'] = 'Ok';
 		$statusString ['md5sum'] = '0';
 		$statusString ['version'] = 'Frontend';
+		$statusString ['PHPModul'] = $phpmodul;
 		$resultjson = json_encode ( $statusString, JSON_UNESCAPED_SLASHES );
 		return $resultjson;
 	}

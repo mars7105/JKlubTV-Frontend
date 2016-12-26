@@ -306,7 +306,8 @@ AddDefaultCharset utf-8
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-l
 	RewriteRule ^.*$ %{ENV:CWD}index.php [QSA,L]
-
+	
+    RewriteRule ^fileadmin/jklubtvfrontend/.*$ - [L]
 </IfModule>
 
 # Access block for files
